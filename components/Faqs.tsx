@@ -3,51 +3,50 @@ import React, { useState } from 'react'
 
 function Faqs() {
   return (
-    <section className="text-primary transition-colors duration-300" id="faqs" data-section-title="faqs" data-toc-section="true">
-      <div className="s relative  transition-colors duration-300">
-        <section className=" pt-10 pb-30 text-primary lg:pt-24 lg:pb-40">
+    <section className=" transition-colors duration-300 " id="faqs" data-section-title="faqs" data-toc-section="true">
+      <div className="relative transition-colors duration-300">
+        <section className="pt-10 pb-30 lg:pt-24 lg:pb-40">
           <div className="grid grid-cols-12 gap-3 p-4 lg:p-6">
             <div className="col-span-full pb-10 lg:col-span-6">
-              <h3 className="subheading-2 lg:body-2">Frequently asked questions</h3>
+              <h3 className="text-[36px] font-bold ">Frequently asked questions</h3>
             </div>
             <div className="col-span-full lg:col-span-6">
               <div className="w-full flex flex-col gap-2" role="presentation">
 
-                <FAQItem question="What can Memo do?">
-                  <p className="[&+&]:mt-[1em]">The Sunday team is developing two things: first: a<em> robot with skills</em>, and second: <em>the robot’s capability to acquire new skills.</em></p>
-                  <p className="[&+&]:mt-[1em]">Think of it like the difference between cooking a few good home-made dishes versus developing a whole restaurant operation with great chefs who will source better ingredients, produce new menus, and run a kitchen that makes more dishes, all of which adds up to a great dining experience.</p>
-                  <p className="[&+&]:mt-[1em]">Today, Memo (*the robot with skills*) can do the following things: </p>
-                  <ul className="list-dash relative mb-[1em] list-outside pl-[1em] last-of-type:mb-0 [p+&]:mt-[1em]">
-                    <li className="pl-3">Dishes: Memo can collect utensils, baby plates, cups, and delicate wine glasses. Memo will also clear used napkins, and dump food scraps into the trash bin. Finally Memo will load up your dishwasher and run it.</li>
-                    <li className="pl-3">Coffee: Memo can pull a shot from an espresso machine with a nice crema on top. </li>
-                    <li className="pl-3">Laundry: This is a new skill for Memo, who is very proud of being able to handle piles of socks now.</li>
+                <FAQItem question="What can Zentronix do for my business?">
+                  <p className="[&+&]:mt-[1em] text-[20px] leading-relaxed">Zentronix specializes in two main areas: first, <em>driving highly targeted organic traffic</em>, and second, <em>converting that traffic into qualified leads.</em></p>
+                  <p className="[&+&]:mt-[1em] text-[20px] leading-relaxed">Think of it like the difference between simply having a website and running a fully optimized digital sales engine. We source better keywords, produce high-converting content, and build digital authority.</p>
+                  <p className="[&+&]:mt-[1em] text-[20px] leading-relaxed">Today, our specialized strategies include: </p>
+                  <ul className="list-dash relative mb-[1em] list-outside pl-[1em] last-of-type:mb-0 [p+&]:mt-[1em] text-[20px] leading-relaxed">
+                    <li className="pl-3"><strong>SEO Optimization:</strong> We improve your search rankings, ensuring your brand captures high-intent traffic directly from search engines.</li>
+                    <li className="pl-3"><strong>Content Marketing:</strong> We craft authoritative, engaging content that answers your customers' needs and establishes industry leadership.</li>
+                    <li className="pl-3"><strong>Conversion Optimization:</strong> We analyze user behavior to refine your funnels, turning casual visitors into paying customers.</li>
                   </ul>
-                  <p className="[&+&]:mt-[1em]">We are still actively improving the reliability and generalization of these skills, so Memo can do them in your home out-of-the-box.</p>
+                  <p className="[&+&]:mt-[1em] text-[20px] leading-relaxed">We continuously improve the reliability and scale of these strategies, so your business grows sustainably out-of-the-box.</p>
                 </FAQItem>
 
-                <FAQItem question="Is Memo available for purchase?">
-                  <p className="[&+&]:mt-[1em]">Not yet — but you <em>can</em> apply to become a Founding Family in our 2026 beta program. Memo will not be available for purchase until after we complete our beta testing in 2026 and incorporate everything we learn into the production of Memo at scale.</p>
-                  <p className="[&+&]:mt-[1em]">During the beta, we’re focused on making Memo exceptionally good at helping you—prioritizing safety, hygiene, maintenance, durability, interaction quality, and real-life usefulness inside a messy home.</p>
+                <FAQItem question="How long does it take to see SEO results?">
+                  <p className="[&+&]:mt-[1em] text-[20px] leading-relaxed">While some technical improvements yield immediate boosts, comprehensive SEO is a strategic, long-term investment. Most of our clients see significant organic growth within <em>3 to 6 months.</em></p>
+                  <p className="[&+&]:mt-[1em] text-[20px] leading-relaxed">During the first few months, we focus on technical foundational fixes, uncovering keyword gaps, and executing high-impact content creation designed to capture market share.</p>
                 </FAQItem>
 
-                <FAQItem question="How much will a Memo cost?">
-                  <p className="[&+&]:mt-[1em]">Building a single Memo today — by hand, with custom components and no economies of scale — costs approximately $20,000.</p>
-                  <p className="[&+&]:mt-[1em]">We don’t expect that to be the retail price. Large-scale manufacturing in our next phase will meaningfully reduce costs by at least 50%, and exact pricing will be announced closer to launch.</p>
+                <FAQItem question="How much do your services cost?">
+                  <p className="[&+&]:mt-[1em] text-[20px] leading-relaxed">Every business has unique needs, so we don't believe in one-size-fits-all pricing. Our custom growth campaigns are designed strictly to generate a massive, positive ROI.</p>
+                  <p className="[&+&]:mt-[1em] text-[20px] leading-relaxed">Our scalable solutions grow alongside your revenue. Exact pricing structures are tailored to your objectives and will be outlined clearly after your initial strategy session.</p>
                 </FAQItem>
 
-                <FAQItem question="How big is Memo? How fast can Memo move?">
-                  <p className="[&+&]:mt-[1em]">Memo can lower to touch the ground or reach as tall as 7 feet with its arms. For most tasks, Memo rests at 4 feet.</p>
-                  <p className="[&+&]:mt-[1em]">Memo’s hardware is powerful, but the software sets hard limits on Memo’s speed. It helps Memo avoid collisions in unseen environments to go at a meandering pace.</p>
-                  <p className="[&+&]:mt-[1em]">For most tasks today, we train Memo to move at 50% of a human’s natural pace. This feels safer and makes it easier for our team to see and critique the precision of movements (we’re picky, down to a few millimeters). Please refer to specs on our Technology page for more details.</p>
+                <FAQItem question="Do you work with businesses in my industry?">
+                  <p className="[&+&]:mt-[1em] text-[20px] leading-relaxed">Yes. We have a diverse portfolio and proven methodologies that adapt seamlessly to various industries, from local service businesses to massive e-commerce platforms and SaaS.</p>
+                  <p className="[&+&]:mt-[1em] text-[20px] leading-relaxed">Our data-first approach allows our specialists to deeply understand any niche, meticulously analyze competitors, and uncover the most profitable digital opportunities for your specific market.</p>
                 </FAQItem>
 
-                <FAQItem question="Is Memo safe?">
-                  <p className="[&+&]:mt-[1em]">Yes, Memo is uniquely engineered with strict standards for safety and privacy. Memo has <span tabIndex={0} aria-describedby="f72fce608190"><span className="decoration-skip-ink-none cursor-help underline decoration-secondary decoration-dotted decoration-from-font underline-offset-[10%]"><em>compliant control</em></span></span>, which means you can safely push the robot limbs around while it’s in the middle of manipulation tasks, and it not resist or be stiff to your touch.</p>
-                  <p className="[&+&]:mt-[1em]">Unlike humanoids which require power to constantly maintain balance, Memo also has <span tabIndex={0} aria-describedby="82806cd6eede"><span className="decoration-skip-ink-none cursor-help underline decoration-secondary decoration-dotted decoration-from-font underline-offset-[10%]"><em>passive stability</em></span></span>, meaning that you can cut power to the robot in any state and it will not suddenly drop its weight or fall down.</p>
+                <FAQItem question="Is your SEO approach safe and compliant?">
+                  <p className="[&+&]:mt-[1em] text-[20px] leading-relaxed">Absolutely. Zentronix is uniquely engineered around strict standards for safety, privacy, and algorithm compliance. We utilize <span className="decoration-secondary underline decoration-dotted underline-offset-[10%] font-semibold">100% white-hat strategies</span>.</p>
+                  <p className="[&+&]:mt-[1em] text-[20px] leading-relaxed">Unlike risky tactics that can get a site penalized, our approach relies on building authentic authority and robust technical health, meaning your site maintains stability and continues to grow through algorithm updates.</p>
                 </FAQItem>
 
-                <FAQItem question="What is the Sunday Beta program?">
-                  <p className="[&+&]:mt-[1em]">Find an overview of our <a className="underline underline-offset-[20%]" href="/beta-program">Beta Program here</a>. More details of the Beta Program will be released in early 2026. Subscribe to our newsletter and follow us at <a href="https://x.com/sundayrobotics" className="underline underline-offset-[20%]" target="_blank" rel="noopener noreferrer">@sundayrobotics</a> on X for updates.</p>
+                <FAQItem question="How do I get started with Zentronix?">
+                  <p className="[&+&]:mt-[1em] text-[20px] leading-relaxed">Getting started is simple. Request an overview of our <a className="underline font-semibold underline-offset-[20%]" href="/beta-program">Free Digital Audit here</a>. Our experts will analyze your current digital presence and outline a custom roadmap for exponential growth.</p>
                 </FAQItem>
 
               </div>
@@ -70,15 +69,15 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, children }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="overflow-hidden border-t border-border not-first:mt-6">
+    <div className="overflow-hidden border-t border-gray-300 not-first:mt-6">
       <button
         onClick={() => setIsOpen(!isOpen)}
         type="button"
-        className="flex w-full cursor-pointer items-start justify-between text-left pt-4"
+        className="flex w-full cursor-pointer items-start justify-between text-left pt-6 pb-2"
         aria-expanded={isOpen}
       >
         <span className="max-w-[60ch] flex-1">
-          <p className="body-2 font-semibold">{question}</p>
+          <p className="text-[24px] font-bold ">{question}</p>
         </span>
         <span
           className={`inline-flex shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180" : ""
@@ -87,15 +86,15 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, children }) => {
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="28"
+            height="28"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth="2"
+            strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="lucide lucide-chevron-down h-4 w-4 opacity-70"
+            className="lucide lucide-chevron-down opacity-80"
           >
             <path d="m6 9 6 6 6-6" />
           </svg>
@@ -106,7 +105,7 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, children }) => {
           }`}
       >
         <div className="overflow-hidden">
-          <div className="pb-6 body-2 text-secondary pt-4">{children}</div>
+          <div className="pb-8  pt-4">{children}</div>
         </div>
       </div>
     </div>

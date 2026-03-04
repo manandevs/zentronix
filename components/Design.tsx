@@ -1,59 +1,87 @@
-import Image from 'next/image'
-import React from 'react'
+"use client";
 
-function Design() {
+import React from "react";
+import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { FreeMode } from "swiper/modules";
+
+import "swiper/css";
+import "swiper/css/free-mode";
+
+const slides = [
+  {
+    title: "Data-Driven Decisions",
+    text: "We base every decision on hard data and advanced analytics. Our dedicated SEO developers ensure your strategy targets high-converting keywords with precise accuracy.",
+    dark: true,
+    bg: "bg-amber-500"
+  },
+  {
+    title: "Sustainable Organic Growth",
+    text: "Our white-hat SEO techniques build a rock-solid foundation, protecting your digital assets from algorithm penalties and ensuring long-term visibility.",
+    bg: "bg-indigo-600",
+  },
+  {
+    title: "Tailored to Your Business",
+    text: "We customize every growth campaign to fit your unique market landscape, audience intent, and specific revenue objectives.",
+    bg: "bg-orange-600"
+  },
+  {
+    title: "Transparent and Measurable",
+    text: "We provide clear, jargon-free reporting so you always know exactly how your campaigns are performing and what ROI you are achieving.",
+    bg: "bg-lime-600",
+  },
+];
+
+export default function Design() {
   return (
-    <section className="  text-primary transition-colors duration-300" id="design" data-section-title="design" data-toc-section="true">
-      <div className="s relative  transition-colors duration-300">
-        <section className="text-text-primary bg-surface pt-12 pb-[var(--header-height)] md:scale-(--scale) md:rounded-(--borderRadius) md:pt-6" style={{ "--scale": 0.9607201309328969, "--borderRadius": "24px" } as React.CSSProperties}>
-          <h2 className="px-4 pb-[calc(var(--header-height)+(var(--spacing)*12))] text-center heading-1 lg:px-6 lg:display-1">Designed for real use</h2>
-          <div className="scroll-mt-[calc(var(--header-height)+(var(--spacing)*3))]">
-            <div style={{ opacity: 1, transform: "none" }}>
-              <div style={{ height: "calc(1280.41px + 100vh)" }}>
-                <div className="sticky top-[calc((var(--header-height)+(var(--spacing)*3)))] overflow-hidden">
-                  <div className="no-scrollbar flex h-[calc(100svh-(var(--header-height)*2))] translate-x-0 snap-x snap-mandatory [scroll-padding:calc(var(--spacing)*4)] items-center gap-2 overflow-x-auto px-4 lg:w-max lg:translate-x-[var(--tx)] lg:transform-gpu lg:px-6 lg:will-change-transform" style={{ "--tx": "0px" } as React.CSSProperties}>
+    <section
+      className="text-primary transition-colors duration-300 pt-20"
+      id="design"
+      data-section-title="design"
+      data-toc-section="true"
+    >
+      <section className="pt-12 pb-[var(--header-height)] md:scale-(--scale) md:rounded-(--borderRadius) md:pt-6">
+        <h2 className="px-4 pb-[calc(var(--header-height)+(var(--spacing)*12))] text-center text-[36px] font-bold  lg:px-6 my-14">
+          Engineered for Rapid Growth
+        </h2>
 
-                    <article className="relative grid aspect-2/3 h-[calc(100svh-(var(--header-height)*2))] max-h-[540px] max-w-[calc(100vw-2rem)] flex-none snap-start grid-rows-2 gap-6 overflow-hidden rounded-xl bg-black p-3 body-2 md:aspect-3/4 2xl:max-h-[600px] 2xl:p-4 before:pointer-events-none before:absolute before:inset-0 before:z-1 before:bg-linear-to-b before:from-black/30 before:to-black/0 dark">
-                      <div className="z-10">
-                        <h3 className="text-primary">Your privacy is protected</h3>
-                        <p className="text-secondary">Memo is an autonomous robot that does not need to learn through human tele-operation. Instead, we obtain training data from our Memory Developers wearing our Skill Capture Glove™.</p>
-                      </div>
-                      <Image alt="" src="/images/image.png" width={1000} height={1500} className="h-full w-full rounded-sm object-cover absolute" style={{ objectPosition: "50% 50%" }} />
-                    </article>
-
-                    <article className="relative grid aspect-2/3 h-[calc(100svh-(var(--header-height)*2))] max-h-[540px] max-w-[calc(100vw-2rem)] flex-none snap-start grid-rows-2 gap-6 overflow-hidden rounded-xl bg-black p-3 body-2 md:aspect-3/4 2xl:max-h-[600px] 2xl:p-4 lg:aspect-3/2 lg:grid-cols-2 lg:grid-rows-1 light" style={{ backgroundColor: "#eadcce" }}>
-                      <div className="z-10">
-                        <h3 className="text-primary">Safety for the whole family</h3>
-                        <p className="text-secondary">With a low center of gravity, stable wheelbase, and a lightweight body, Memo is safe for small members of the home.</p>
-                      </div>
-                      <Image alt="placeholder" src="/images/image.png" width={1800} height={2400} className="h-full w-full rounded-sm object-cover" style={{ objectPosition: "50% 50%" }} />
-                    </article>
-
-                    <article className="relative grid aspect-2/3 h-[calc(100svh-(var(--header-height)*2))] max-h-[540px] max-w-[calc(100vw-2rem)] flex-none snap-start grid-rows-2 gap-6 overflow-hidden rounded-xl bg-black p-3 body-2 md:aspect-3/4 2xl:max-h-[600px] 2xl:p-4 before:pointer-events-none before:absolute before:inset-0 before:z-1 before:bg-linear-to-b before:from-black/30 before:to-black/0 dark">
-                      <div className="z-10">
-                        <h3 className="text-primary">Tailored to your home</h3>
-                        <p className="text-secondary">Customize Memo to fit your aesthetic with a selection of color-ways and personalized hats.</p>
-                      </div>
-                      <Image alt="" src="/images/image.png" width={1800} height={2400} className="h-full w-full rounded-sm object-cover absolute" style={{ objectPosition: "50% 50%" }} />
-                    </article>
-
-                    <article className="relative grid aspect-2/3 h-[calc(100svh-(var(--header-height)*2))] max-h-[540px] max-w-[calc(100vw-2rem)] flex-none snap-start grid-rows-2 gap-6 overflow-hidden rounded-xl bg-black p-3 body-2 md:aspect-3/4 2xl:max-h-[600px] 2xl:p-4 lg:aspect-3/2 lg:grid-cols-2 lg:grid-rows-1 light" style={{ backgroundColor: "#aec2b8" }}>
-                      <div className="z-10">
-                        <h3 className="text-primary">Simple, soft and easy to clean</h3>
-                        <p className="text-secondary">Memo has a soft-to-the-touch silicone shell, with no sharp corners and can be wiped down with any household cleaning product.</p>
-                      </div>
-                      <Image alt="" src="/images/image.png" width={1800} height={2400} className="h-full w-full rounded-sm object-cover" style={{ objectPosition: "50% 50%" }} />
-                    </article>
-
+        <div className="sticky top-[calc((var(--header-height)+(var(--spacing)*3)))]">
+          <Swiper
+            modules={[FreeMode]}
+            freeMode
+            loop={true}
+            grabCursor
+            slidesPerView="auto"
+            spaceBetween={8}
+            className="px-4 md:px-6"
+          >
+            {slides.map((slide, i) => (
+              <SwiperSlide
+                key={i}
+                className="!w-auto max-w-[calc(100vw-2rem)]"
+              >
+                <article
+                  className={`relative grid aspect-2/3 h-[calc(100svh-(var(--header-height)*2))] max-h-[540px] flex-none snap-start gap-6 overflow-hidden rounded-xl p-6 body-2 md:aspect-3/4 2xl:max-h-[600px] 2xl:p-8 ${slide.bg} lg:aspect-3/2 lg:grid-cols-2 lg:grid-rows-1 shadow-lg`}
+                >
+                  <div className="z-10 flex flex-col justify-end lg:justify-start bg-black/40 lg:bg-transparent p-4 rounded-xl lg:p-0">
+                    <h3 className="text-[28px] font-bold  mb-4 drop-shadow-md">{slide.title}</h3>
+                    <p className="text-[20px] /90 leading-relaxed font-medium drop-shadow-sm">{slide.text}</p>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-    </section>
-  )
-}
 
-export default Design
+                  <Image
+                    alt=""
+                    src="/images/image.png"
+                    width={1800}
+                    height={2400}
+                    className="h-full w-full rounded-sm object-cover absolute lg:relative mix-blend-overlay opacity-80"
+                    style={{ objectPosition: "50% 50%" }}
+                  />
+                </article>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+      </section>
+    </section>
+  );
+}

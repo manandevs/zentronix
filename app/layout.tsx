@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import SmoothScroll from "@/components/SmoothScroll";
 
 const lobster = localFont({
   src: "../public/fonts/lobster.otf",
@@ -9,26 +10,28 @@ const lobster = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: "Zentronix",
+    default: "Zentronix | SEO & Digital Growth Agency",
     template: "%s | Zentronix",
   },
   description:
-    "Zentronix – Centralized Technology & Network Interface Exchange platform.",
+    "Zentronix – Premier SEO & Digital Growth Agency. Scale your business, drive organic traffic, and generate high-quality leads with data-driven strategies.",
   keywords: [
     "Zentronix",
-    "Technology Platform",
-    "Digital Network",
-    "SaaS",
-    "Innovation",
+    "SEO Agency",
+    "Digital Growth",
+    "Organic Traffic",
+    "Lead Generation",
+    "Conversion Optimization",
+    "Business Scaling"
   ],
   icons: {
-    icon: "/images/favicon.png", 
+    icon: "/images/favicon.png",
     shortcut: "/images/favicon.png",
     apple: "/images/favicon.png",
   },
-  authors: [{ name: "Zentronix Team" }],
+  authors: [{ name: "Zentronix Growth Team" }],
   creator: "Zentronix",
-  metadataBase: new URL("https://yourdomain.com"), 
+  metadataBase: new URL("https://yourdomain.com"),
 };
 
 export default function RootLayout({
@@ -38,8 +41,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${lobster.variable} antialiased font-lobster`}>
-        {children}
+      <body className={`${lobster.variable} antialiased font-lobster  bg-white`}>
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );

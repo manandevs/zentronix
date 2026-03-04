@@ -11,7 +11,9 @@ function Technology() {
             <div className="h-[240vh] min-h-[240vh] w-full">
               <div className="mx-auto flex min-h-[calc(100vh-var(--spacing)*6)] w-full justify-center bg-linear-to-b from-green-tint from-33% to-warm-grey-dark" style={{ clipPath: "inset(0px calc((var(--container-padding)) * var(--exit-progress)) round calc(var(--border-radius) * var(--exit-progress)))", "--exit-progress": 0 } as React.CSSProperties}>
                 <div className="relative flex min-h-[240vh] w-full flex-col">
-                  <h1 className="z-30 sticky top-0 mx-auto flex h-svh items-center justify-center px-4 pt-0 text-center heading-1 text-balance text-primary dark lg:px-20">From imitation to intuition</h1>
+                  <h1 className="z-30 sticky top-0 mx-auto flex h-svh items-center justify-center px-4 pt-0 text-center text-[50px] md:text-[98px] font-bold text-balance lg:px-20">
+                    From invisible to industry leader
+                  </h1>
                   <div className="absolute bottom-0 left-1/2 z-20 mx-auto my-0 flex h-[80vh] w-[140vw] -translate-x-1/2 flex-col justify-end lg:aspect-square xl:max-w-1/2">
                     <Image alt="Skill Capture glove" src="/images/image.png" width={1080} height={1524} className="h-full w-full object-contain !object-bottom" style={{ objectPosition: "50% 50%" }} />
                   </div>

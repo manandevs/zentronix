@@ -32,9 +32,9 @@ uniform vec2 uMouse;
 uniform float uSpeed;
 uniform float uIntensity;
 
-#define NUM_RAYS 13.0
-#define VOLUMETRIC_STEPS 19
-#define MAX_ITER 35
+#define NUM_RAYS 5.0
+#define VOLUMETRIC_STEPS 12
+#define MAX_ITER 25
 #define FAR 6.0
 
 // small 2x2 rotation matrix
@@ -251,8 +251,19 @@ export default function PlasmaGlobe({
     const container = containerRef.current;
     if (!container) return;
 
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (prefersReducedMotion) return;
+
+    const isCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
+
     // create renderer
-    const renderer = new Renderer({ alpha: true, antialias: true });
+    const renderer = new Renderer({
+      alpha: true,
+      antialias: !isCoarsePointer,
+      dpr: Math.min(window.devicePixelRatio, isCoarsePointer ? 1.5 : 2),
+    });
     const gl = renderer.gl;
     gl.clearColor(0, 0, 0, 0);
     gl.enable(gl.BLEND);
@@ -295,7 +306,27 @@ export default function PlasmaGlobe({
     window.addEventListener("mousemove", onMouse);
 
     let rafId = 0;
+    let isVisible = true;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible && !rafId) {
+          rafId = requestAnimationFrame(loop);
+        } else if (!isVisible && rafId) {
+          cancelAnimationFrame(rafId);
+          rafId = 0;
+        }
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(container);
+
     const loop = (t: number) => {
+      if (!isVisible) {
+        rafId = 0;
+        return;
+      }
       rafId = requestAnimationFrame(loop);
       // uTime passed in seconds, multiplied by speed
       program.uniforms.uTime.value = (t * 0.001) * speed;
@@ -307,6 +338,7 @@ export default function PlasmaGlobe({
 
     return () => {
       cancelAnimationFrame(rafId);
+      observer.disconnect();
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMouse);
       if (gl.canvas.parentNode === container) container.removeChild(gl.canvas);

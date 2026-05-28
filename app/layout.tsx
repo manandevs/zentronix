@@ -1,22 +1,24 @@
 import type { Metadata, Viewport } from "next";
-import localFont from "next/font/local";
+import { Urbanist, Lobster_Two } from "next/font/google";
 import "./globals.css";
-import SmoothScroll from "@/components/SmoothScroll";
-import { Geist, Urbanist } from "next/font/google"; // 1. Added Urbanist import
 import { cn } from "@/lib/utils";
+import { siteConfig } from "@/lib/site";
 
-const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
-
-// 2. Initialize Urbanist
 const urbanist = Urbanist({
-  subsets: ['latin'],
-  variable: '--font-urbanist',
-  display: 'swap',
+  subsets: ["latin"],
+  variable: "--font-urbanist",
+  display: "swap",
+  preload: true,
+  adjustFontFallback: true,
 });
 
-const lobster = localFont({
-  src: "../public/fonts/lobster.otf",
+const lobster = Lobster_Two({
+  weight: ["400"],
+  subsets: ["latin"],
   variable: "--font-lobster",
+  display: "swap",
+  preload: false,
+  adjustFontFallback: true,
 });
 
 export const viewport: Viewport = {
@@ -26,18 +28,67 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: {
-    default: "Zentorex AI | Next-Gen Intelligence",
-    template: "%s | Zentorex AI",
+    default: siteConfig.title,
+    template: `%s | ${siteConfig.name}`,
   },
-  description: "Zentorex AI – Powered by Gemini. The ultimate AI-native growth engine for modern enterprises.",
+  description: siteConfig.description,
+  keywords: [
+    "Gemini AI",
+    "enterprise AI",
+    "agentic workflows",
+    "multimodal AI",
+    "Zentorex",
+  ],
+  authors: [{ name: siteConfig.name }],
+  creator: siteConfig.name,
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: siteConfig.url,
+    siteName: siteConfig.name,
+    title: siteConfig.title,
+    description: siteConfig.description,
+    images: [
+      {
+        url: siteConfig.ogImage,
+        width: 1200,
+        height: 630,
+        alt: "Zentorex AI — neural intelligence platform",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.title,
+    description: siteConfig.description,
+    images: [siteConfig.ogImage],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  alternates: {
+    canonical: siteConfig.url,
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={cn(geist.variable, urbanist.variable, lobster.variable)}>
+    <html
+      lang="en"
+      className={cn(urbanist.variable, lobster.variable, "scroll-smooth")}
+    >
       <body className="antialiased font-urbanist bg-white text-stone-950">
-        <SmoothScroll>{children}</SmoothScroll>
+        {children}
       </body>
     </html>
   );

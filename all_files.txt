@@ -1,0 +1,2694 @@
+=== D:\zentronix\.env.local ===
+# Google Gemini API
+GEMINI_API_KEY=AIzaSyC042HfodTDkNgpZTvwEgFQKu89WHenmRs
+
+# Project Metadata
+PROJECT_NAME="Zentronix Gemini API Key"
+GOOGLE_PROJECT_ID=projects/784433263922
+GOOGLE_PROJECT_NUMBER=784433263922
+
+
+=== D:\zentronix\.gitignore ===
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+
+=== D:\zentronix\app\api\chat\route.ts ===
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+const apiKey = process.env.GEMINI_API_KEY;
+if (!apiKey) {
+  throw new Error("Missing GEMINI_API_KEY");
+}
+const genAI = new GoogleGenerativeAI(apiKey);
+
+export async function POST(req: Request) {
+  try {
+    const { prompt } = await req.json();
+
+    if (!prompt) {
+      return new Response(JSON.stringify({ error: "Prompt is required" }), { status: 400 });
+    }
+
+    // Using the 1.5 Flash model
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const text = response.text();
+
+    return new Response(JSON.stringify({ text }), { status: 200 });
+  } catch (error: any) {
+    console.error("Gemini API Error:", error);
+    return new Response(
+      JSON.stringify({ error: error.message || "An unexpected error occurred" }),
+      { status: 500 }
+    );
+  }
+}
+
+=== D:\zentronix\app\chat\page.tsx ===
+import { ChatShell } from "@/components/chat/chat-shell"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Chat - AI Assistant",
+  description: "Chat with our AI assistant powered by Gemini",
+}
+
+export default function ChatPage() {
+  return (
+    <div className="font-urbanist">
+      <ChatShell />
+    </div>
+  )
+}
+
+
+=== D:\zentronix\app\globals.css ===
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --radius: 0.625rem;
+
+  /* Global Agency-style Shadow (Synced with Landing Page) */
+  --shadow-agency: rgba(14, 63, 126, 0.06) 0px 0px 0px 1px, 
+                   rgba(42, 51, 69, 0.04) 0px 1px 1px -0.5px, 
+                   rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px, 
+                   rgba(42, 51, 70, 0.04) 0px 6px 6px -3px, 
+                   rgba(14, 63, 126, 0.04) 0px 12px 12px -6px, 
+                   rgba(14, 63, 126, 0.04) 0px 24px 24px -12px;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+@theme inline {
+  --font-lobster: var(--font-lobster);
+  --font-urbanist: var(--font-urbanist);
+  --font-sans: var(--font-sans);
+  --font-mono: "Geist Mono", "Geist Mono Fallback";
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-border: var(--border);
+  --radius-lg: var(--radius);
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+
+@layer base {
+  * { @apply border-border outline-ring/50; }
+  body { 
+    @apply antialiased selection:bg-indigo-500 selection:text-white bg-background text-foreground font-urbanist; 
+  }
+  h1, h2, h3, h4 {
+    @apply tracking-tight font-urbanist;
+  }
+}
+
+.btn-agency {
+  @apply transition-all duration-300 ease-out active:scale-95 hover:scale-105 hover:-translate-y-0.5;
+}
+
+
+.glass-agency {
+  @apply bg-white/70 backdrop-blur-2xl border border-white/40 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)];
+}
+
+@keyframes orb-hue-rotate {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+.gradient-text-animated {
+  background: linear-gradient(45deg, #3b82f6, #8b5cf6, #06b6d4, #f59e0b, #3b82f6);
+  background-size: 300% 300%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-shift 2s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.font-accent {
+  font-family: var(--font-lobster), cursive;
+}
+
+.gradient-text-ai {
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #d946ef 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% auto;
+  animation: shine 4s linear infinite;
+}
+
+@keyframes shine {
+  to { background-position: 200% center; }
+}
+
+=== D:\zentronix\app\layout.tsx ===
+import type { Metadata, Viewport } from "next";
+import localFont from "next/font/local";
+import "./globals.css";
+import SmoothScroll from "@/components/SmoothScroll";
+import { Geist, Urbanist } from "next/font/google"; // 1. Added Urbanist import
+import { cn } from "@/lib/utils";
+
+const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
+
+// 2. Initialize Urbanist
+const urbanist = Urbanist({
+  subsets: ['latin'],
+  variable: '--font-urbanist',
+  display: 'swap',
+});
+
+const lobster = localFont({
+  src: "../public/fonts/lobster.otf",
+  variable: "--font-lobster",
+});
+
+export const viewport: Viewport = {
+  themeColor: "#ffffff",
+  width: "device-width",
+  initialScale: 1,
+};
+
+export const metadata: Metadata = {
+  title: {
+    default: "Zentorex AI | Next-Gen Intelligence",
+    template: "%s | Zentorex AI",
+  },
+  description: "Zentorex AI – Powered by Gemini. The ultimate AI-native growth engine for modern enterprises.",
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" className={cn(geist.variable, urbanist.variable, lobster.variable)}>
+      <body className="antialiased font-urbanist bg-white text-stone-950">
+        <SmoothScroll>{children}</SmoothScroll>
+      </body>
+    </html>
+  );
+}
+
+=== D:\zentronix\app\page.tsx ===
+"use client";
+
+import React, { useState } from "react";
+import Image from "next/image";
+import Header from "@/components/Header";
+import OurStory from "@/components/OurStory";
+import Services from "@/components/Services";
+import Technology from "@/components/Technology";
+import Design from "@/components/Design";
+import Faqs from "@/components/Faqs";
+import Skill from "@/components/Skill";
+import Hero from "@/components/Hero";
+
+
+export default function Home() {
+  return (
+    <div className="content-blocks relative transition-colors duration-300 ">
+      <Header />
+      <Hero />
+      <OurStory />
+      <Services />
+      <Technology />
+      <Skill />
+      <Design />
+      <Faqs />
+
+      <section className="space-y-16 py-12 font-urbanist">
+        {/* Block 1: Partner CTA */}
+        <div className="rounded-2xl p-6 md:px-12 bg-gray-50/50">
+          <div className="flex flex-col items-center justify-center text-center">
+            <h3 className="label-1 text-[36px] font-bold leading-tight">
+              Partner with <span className="font-lobster font-normal text-indigo-600">Zentorex AI</span> today.
+              <br />
+              Autonomous reasoning. Exponential scale. Cognitive dominance.
+            </h3>
+
+            <a
+              href="/chat"
+              className="inline-flex items-center justify-center rounded-full border border-black/20 px-8 py-4 font-semibold text-[20px] bg-black transition-all duration-300 hover:scale-105 text-white hover:bg-gray-900 shadow-lg hover:shadow-xl mt-6"
+            >
+              Secure Your Neural Audit
+            </a>
+          </div>
+        </div>
+
+        {/* Block 2: Three-column Branding */}
+        <div className="p-6">
+          <div className="flex flex-col items-center justify-between gap-10 md:flex-row">
+            <div className="md:flex-1">
+              <h3 className="text-center md:text-left text-[36px] font-bold leading-tight">
+                Next-Gen Enterprise Intelligence.
+              </h3>
+            </div>
+
+            <div className="flex flex-1 flex-col items-center gap-6">
+              <div className="w-[110px] md:w-[160px]">
+                <Image
+                  src="/images/favicon.png"
+                  alt="Zentorex Favicon"
+                  width={160}
+                  height={160}
+                  className="w-full h-auto drop-shadow-md"
+                />
+              </div>
+
+              <button
+                type="button"
+                className="inline-flex items-center justify-center rounded-full bg-black px-8 py-4 mt-8 font-semibold text-[20px] transition-all duration-300 text-white hover:bg-gray-900 shadow-lg hover:shadow-xl hover:-translate-y-1"
+              >
+                Launch Your AI Journey
+              </button>
+            </div>
+
+            <div className="hidden md:block md:flex-1">
+              <h3 className="text-right text-[36px] font-bold leading-tight">
+                Ready to orchestrate logic?
+              </h3>
+            </div>
+          </div>
+        </div>
+
+        {/* Block 3: Newsletter */}
+        <div className="rounded-2xl px-6 py-12 pb-36 light">
+          <div className="flex flex-col items-center gap-6 text-center md:flex-row md:justify-center md:gap-8">
+            <h3 className="text-[36px] font-bold leading-tight">
+              Get the latest Neural Insights.
+              <br />
+              Join our exclusive AI community.
+            </h3>
+
+            <button
+              type="button"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-black/20 bg-black px-8 py-4 font-semibold text-[20px] transition-all duration-300 text-white hover:bg-gray-900 shadow-lg hover:shadow-xl"
+            >
+              Subscribe Now
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+=== D:\zentronix\components\chat\analysis-word-span.tsx ===
+"use client"
+
+import { useEffect, useState, useRef } from "react"
+
+interface AnalysisWordSpanProps {
+  word: string
+}
+
+export function AnalysisWordSpan({ word }: AnalysisWordSpanProps) {
+  const [blurAmount, setBlurAmount] = useState(16)
+  const [opacity, setOpacity] = useState(0)
+  const [animationComplete, setAnimationComplete] = useState(false)
+  const animationRef = useRef<number | null>(null)
+  const mountedRef = useRef(false)
+
+  useEffect(() => {
+    if (mountedRef.current) return
+    mountedRef.current = true
+
+    const startTime = performance.now()
+    const duration = 600
+
+    const animateBlur = (currentTime: number) => {
+      const elapsed = currentTime - startTime
+      const progress = Math.min(elapsed / duration, 1)
+
+      const easeOut = 1 - Math.pow(1 - progress, 3)
+      const newBlur = 16 * (1 - easeOut)
+      const newOpacity = easeOut
+
+      setBlurAmount(newBlur)
+      setOpacity(newOpacity)
+
+      if (progress < 1) {
+        animationRef.current = requestAnimationFrame(animateBlur)
+      } else {
+        setAnimationComplete(true)
+      }
+    }
+
+    animationRef.current = requestAnimationFrame(animateBlur)
+
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current)
+      }
+    }
+  }, [])
+
+  return (
+    <span
+      className="inline text-stone-900"
+      style={{
+        filter: animationComplete ? "none" : `blur(${blurAmount}px)`,
+        opacity: animationComplete ? 1 : opacity,
+      }}
+    >
+      {word}
+    </span>
+  )
+}
+
+
+=== D:\zentronix\components\chat\animated-orb.tsx ===
+"use client"
+
+import type React from "react"
+
+export function AnimatedOrb({
+  className,
+  variant = "default",
+  size = 32,
+}: { className?: string; variant?: "default" | "red"; size?: number }) {
+  const colors =
+    variant === "red"
+      ? {
+          bg: "#fef2f2",
+          circle1: "#ef4444",
+          circle2: "#f87171",
+          circle3: "#dc2626",
+          circle4: "#fca5a5",
+          circle5: "#fb7185",
+        }
+      : {
+          bg: "#cff1f4",
+          circle1: "#9e9fef",
+          circle2: "#c471ec",
+          circle3: "#9bc761",
+          circle4: "#ccd4f2",
+          circle5: "#f472b6",
+        }
+
+  const blurAmount = Math.max(6, size * 0.15)
+  const circle1Size = size * 0.95
+  const circle2Size = size * 0.90
+  const circle3Size = size * 0.85
+  const circle4Size = size * 0.80
+  const circle5Size = size * 0.75
+
+  return (
+    <div
+      className={`relative rounded-full overflow-hidden ${className}`}
+      style={{
+        width: size,
+        height: size,
+        backgroundColor: colors.bg,
+        animation: "orb-hue-rotate 8s linear infinite",
+        boxShadow: "rgba(17, 12, 46, 0.15) 0px 48px 100px 0px",
+      }}
+      aria-hidden="true"
+    >
+      {/* Blur container - blur scales with size */}
+      <div
+        className="absolute inset-0 flex items-center justify-center"
+        style={
+          {
+            "--orb-blur": `${blurAmount}px`,
+            animation: "orb-hue-rotate-blur 6s linear infinite reverse",
+          } as React.CSSProperties
+        }
+      >
+        {/* Circle 1 - large */}
+        <div
+          className="orb-circle-1 absolute rounded-full"
+          style={{
+            width: circle1Size,
+            height: circle1Size,
+            opacity: 0.9,
+            backgroundColor: colors.circle1,
+          }}
+        />
+        {/* Circle 2 - medium */}
+        <div
+          className="orb-circle-2 absolute rounded-full"
+          style={{
+            width: circle2Size,
+            height: circle2Size,
+            opacity: 0.85,
+            backgroundColor: colors.circle2,
+          }}
+        />
+        {/* Circle 3 - large */}
+        <div
+          className="orb-circle-3 absolute rounded-full"
+          style={{
+            width: circle3Size,
+            height: circle3Size,
+            opacity: 0.9,
+            backgroundColor: colors.circle3,
+          }}
+        />
+        {/* Circle 4 - small */}
+        <div
+          className="orb-circle-4 absolute rounded-full"
+          style={{
+            width: circle4Size,
+            height: circle4Size,
+            opacity: 0.8,
+            backgroundColor: colors.circle4,
+          }}
+        />
+        {/* Circle 5 - new medium circle */}
+        <div
+          className="orb-circle-5 absolute rounded-full"
+          style={{
+            width: circle5Size,
+            height: circle5Size,
+            opacity: 0.85,
+            backgroundColor: colors.circle5,
+          }}
+        />
+      </div>
+
+      <div
+        className="absolute inset-0 rounded-full pointer-events-none"
+        style={{
+          background: "linear-gradient(to bottom, rgba(255, 255, 255, 0.4) 0%, transparent 100%)",
+        }}
+      />
+    </div>
+  )
+}
+
+
+=== D:\zentronix\components\chat\audio-waveform.tsx ===
+"use client"
+
+import { useEffect, useRef, useState } from "react"
+
+interface AudioWaveformProps {
+  isRecording: boolean
+  stream?: MediaStream | null
+}
+
+export function AudioWaveform({ isRecording, stream }: AudioWaveformProps) {
+  const [levels, setLevels] = useState<number[]>(Array(24).fill(0.1))
+  const analyserRef = useRef<AnalyserNode | null>(null)
+  const animationRef = useRef<number | null>(null)
+  const audioContextRef = useRef<AudioContext | null>(null)
+  const historyRef = useRef<number[]>([])
+
+  useEffect(() => {
+    if (!isRecording || !stream) {
+      setLevels(
+        Array(24)
+          .fill(0)
+          .map(() => 0.05 + Math.random() * 0.1),
+      )
+      historyRef.current = []
+      return
+    }
+
+    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
+    audioContextRef.current = audioContext
+
+    const analyser = audioContext.createAnalyser()
+    analyser.fftSize = 256
+    analyser.smoothingTimeConstant = 0.3
+    analyserRef.current = analyser
+
+    const source = audioContext.createMediaStreamSource(stream)
+    source.connect(analyser)
+
+    const dataArray = new Uint8Array(analyser.fftSize)
+
+    const updateLevels = () => {
+      if (!analyserRef.current) return
+
+      analyserRef.current.getByteTimeDomainData(dataArray)
+
+      // Calculate RMS (Root Mean Square) for better volume detection
+      let sumSquares = 0
+      for (let i = 0; i < dataArray.length; i++) {
+        const normalized = (dataArray[i] - 128) / 128
+        sumSquares += normalized * normalized
+      }
+      const rms = Math.sqrt(sumSquares / dataArray.length)
+
+      const amplifiedLevel = Math.min(1, rms * 4)
+      const avgLevel = Math.max(0.15, amplifiedLevel)
+
+      historyRef.current.unshift(avgLevel)
+
+      if (historyRef.current.length > 12) {
+        historyRef.current.pop()
+      }
+
+      const newLevels = Array(24).fill(0.1)
+      const center = 12
+
+      for (let i = 0; i < historyRef.current.length; i++) {
+        const level = historyRef.current[i]
+        const leftIndex = center - 1 - i
+        const rightIndex = center + i
+
+        if (leftIndex >= 0) newLevels[leftIndex] = level
+        if (rightIndex < 24) newLevels[rightIndex] = level
+      }
+
+      setLevels(newLevels)
+      animationRef.current = requestAnimationFrame(updateLevels)
+    }
+
+    updateLevels()
+
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current)
+      }
+      if (audioContextRef.current) {
+        audioContextRef.current.close()
+      }
+    }
+  }, [isRecording, stream])
+
+  return (
+    <div className="flex items-center justify-center gap-[3px] h-8 flex-1 px-2">
+      {levels.map((level, index) => (
+        <div
+          key={index}
+          className="bg-zinc-400 rounded-full transition-all duration-75"
+          style={{
+            width: "3px",
+            height: `${Math.max(4, level * 28)}px`,
+          }}
+        />
+      ))}
+    </div>
+  )
+}
+
+
+=== D:\zentronix\components\chat\chat-shell.tsx ===
+"use client"
+
+import { useState, useEffect } from "react"
+import { MessageSquareDashed } from "lucide-react"
+import { MessageList } from "./message-list"
+import { Composer } from "./composer"
+import { Button } from "@/components/ui/button"
+
+export interface Message {
+  text: string
+  sender: "user" | "bot"
+}
+
+const STORAGE_KEY = "zentronix-chat-v1"
+
+export function ChatShell() {
+  const [messages, setMessages] = useState<Message[]>([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [isLoaded, setIsLoaded] = useState(false)
+
+  // Load history
+  useEffect(() => {
+    const stored = localStorage.getItem(STORAGE_KEY)
+    if (stored) {
+      try { setMessages(JSON.parse(stored)) } catch (e) { console.error(e) }
+    }
+    setIsLoaded(true)
+  }, [])
+
+  // Save history
+  useEffect(() => {
+    if (isLoaded) localStorage.setItem(STORAGE_KEY, JSON.stringify(messages))
+  }, [messages, isLoaded])
+
+  const handleSubmit = async (content: string) => {
+    if (!content.trim() || loading) return
+    setError(null)
+
+    const userMsg: Message = { text: content, sender: "user" }
+    setMessages(prev => [...prev, userMsg])
+    setLoading(true)
+
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: content }),
+      })
+
+      if (!response.ok) throw new Error("Failed to fetch response")
+
+      const data = await response.json()
+      const botMsg: Message = { text: data.text, sender: "bot" }
+      setMessages(prev => [...prev, botMsg])
+    } catch (err: any) {
+      setError(err.message || "Connection Error")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className="relative h-dvh bg-stone-50 overflow-hidden">
+      <Button
+        onClick={() => { setMessages([]); localStorage.removeItem(STORAGE_KEY); }}
+        variant="ghost"
+        size="icon"
+        className="absolute top-4 left-4 z-20 h-10 w-10 rounded-full bg-white border border-stone-200 text-stone-600 shadow-sm hover:bg-stone-50"
+      >
+        <MessageSquareDashed className="w-5 h-5" />
+      </Button>
+
+      <MessageList 
+        messages={messages} 
+        isStreaming={loading} 
+        error={error} 
+        onRetry={() => {}} 
+        isLoaded={isLoaded} 
+      />
+
+      <Composer
+        onSend={handleSubmit}
+        onStop={() => {}}
+        isStreaming={loading}
+      />
+    </div>
+  )
+}
+
+=== D:\zentronix\components\chat\composer.tsx ===
+  "use client"
+
+  import type React from "react"
+  import { useState, useRef, useEffect, useCallback } from "react"
+  import { Square, Mic, Brain, Paperclip, X, Check } from "lucide-react"
+  import { Button } from "@/components/ui/button"
+  import { ScrollArea } from "@/components/ui/scroll-area"
+  import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+    DropdownMenuPortal,
+  } from "@/components/ui/dropdown-menu"
+  import Image from "next/image"
+  import { AnimatedOrb } from "./animated-orb"
+
+
+  export type AIModel = "google/gemini-2.0-flash-001" | "google/gemini-1.5-flash-latest" | "google/gemini-1.5-pro-latest"
+
+  export const AI_MODELS: { id: AIModel; name: string; icon: string }[] = [
+    { 
+      id: "google/gemini-2.0-flash-001", 
+      name: "Gemini 2.0 Flash", 
+      icon: "https://www.gstatic.com/lamda/images/favicon_v1_150160d13903a53445129.svg" 
+    },
+    { 
+      id: "google/gemini-1.5-flash-latest", 
+      name: "Gemini 1.5 Flash", 
+      icon: "https://www.gstatic.com/lamda/images/favicon_v1_150160d13903a53445129.svg" 
+    },
+    { 
+      id: "google/gemini-1.5-pro-latest", 
+      name: "Gemini 1.5 Pro", 
+      icon: "https://www.gstatic.com/lamda/images/favicon_v1_150160d13903a53445129.svg" 
+    },
+  ]
+
+  interface ComposerProps {
+    onSend: (text: string, imageBase64?: string) => void
+    onStop?: () => void
+    isStreaming: boolean
+    disabled?: boolean
+    selectedModel?: string
+    onModelChange?: (modelId: string) => void
+  }
+
+  export function Composer({
+    onSend,
+    onStop,
+    isStreaming,
+    disabled,
+    selectedModel = "gemini-2.0-flash",
+    onModelChange,
+  }: ComposerProps) {
+    const [value, setValue] = useState("")
+    const [uploadedImage, setUploadedImage] = useState<string | null>(null)
+    const textareaRef = useRef<HTMLTextAreaElement>(null)
+    const fileInputRef = useRef<HTMLInputElement>(null)
+
+    // Auto-resize Logic
+    useEffect(() => {
+      if (textareaRef.current) {
+        textareaRef.current.style.height = "auto"
+        textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`
+      }
+    }, [value])
+
+    // Process File Input Helper
+    const processFile = (file: File) => {
+      if (file && file.type.startsWith("image/")) {
+        const reader = new FileReader()
+        reader.onloadend = () => {
+          setUploadedImage(reader.result as string)
+        }
+        reader.readAsDataURL(file)
+      }
+    }
+
+    // File Selector Handler
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0]
+      if (file) processFile(file)
+    }
+
+    // Handle Clipboard Image Paste (e.g. Cmd+V a screenshot)
+    const handlePaste = useCallback((e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+      const items = e.clipboardData.items
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf("image") !== -1) {
+          const file = items[i].getAsFile()
+          if (file) {
+            e.preventDefault()
+            processFile(file)
+          }
+        }
+      }
+    }, [])
+
+    const handleSend = useCallback(() => {
+      if ((!value.trim() && !uploadedImage) || isStreaming || disabled) return
+      onSend(value || "Describe this image", uploadedImage || undefined)
+      setValue("")
+      setUploadedImage(null)
+      
+      // Reset Textarea height manually back to 1 row
+      if (textareaRef.current) {
+        textareaRef.current.style.height = "auto"
+      }
+    }, [value, uploadedImage, isStreaming, disabled, onSend])
+
+    const selectedModelData = AI_MODELS.find(m => m.id === selectedModel) || AI_MODELS[0]
+
+    return (
+      <div className="fixed bottom-8 left-0 right-0 px-4 flex justify-center pointer-events-none z-50">
+        <div className="w-full max-w-2xl pointer-events-auto">
+          <div className="flex flex-col bg-white border border-stone-100 shadow-[0_8px_30px_rgb(0,0,0,0.06)] rounded-[32px] p-4 transition-all duration-300 focus-within:shadow-[0_8px_40px_rgb(0,0,0,0.1)]">
+            
+            {/* Image Preview */}
+            {uploadedImage && (
+              <div className="mb-3 px-2 flex items-start">
+                <div className="relative group">
+                  <div className="w-16 h-16 rounded-2xl overflow-hidden border border-stone-100 shadow-sm relative">
+                    <Image src={uploadedImage} alt="Preview" fill className="object-cover" />
+                  </div>
+                  <button 
+                    onClick={() => setUploadedImage(null)} 
+                    className="absolute -top-2 -right-2 w-6 h-6 bg-white shadow-md border border-stone-100 text-stone-500 rounded-full flex items-center justify-center hover:text-red-500 transition-colors"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Correct implementation of ScrollArea + Textarea */}
+            <div className="flex w-full mb-2">
+              <ScrollArea className="w-full max-h-[200px] px-2">
+                <textarea
+                  ref={textareaRef}
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
+                  onPaste={handlePaste}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault()
+                      handleSend()
+                    }
+                  }}
+                  placeholder="Type a message..."
+                  disabled={isStreaming || disabled}
+                  rows={1}
+                  className="w-full bg-transparent border-none resize-none py-2 text-[15px] leading-relaxed text-stone-700 placeholder:text-stone-400 focus:ring-0 focus:outline-none overflow-hidden"
+                />
+              </ScrollArea>
+            </div>
+
+            {/* Bottom Actions */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1">
+                <input 
+                  ref={fileInputRef} 
+                  type="file" 
+                  accept="image/*" 
+                  onChange={handleFileChange} 
+                  className="hidden" 
+                />
+                
+                <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full text-stone-400 hover:bg-stone-50 hover:text-stone-900">
+                  <Mic className="w-[18px] h-[18px]" />
+                </Button>
+
+                <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon" className="h-10 w-10 rounded-full text-stone-400 hover:bg-stone-50 hover:text-stone-900">
+                  <Paperclip className="w-[18px] h-[18px]" />
+                </Button>
+
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full text-stone-400 hover:bg-stone-50 hover:text-stone-900">
+                      <Brain className="w-[18px] h-[18px]" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuPortal>
+                    <DropdownMenuContent align="start" side="top" className="w-64 p-1 rounded-2xl border-stone-100 shadow-xl">
+                      {AI_MODELS.map((model) => (
+                        <DropdownMenuItem 
+                          key={model.id}
+                          onClick={() => onModelChange?.(model.id)}
+                          className="flex items-center justify-between rounded-xl p-2.5 cursor-pointer"
+                        >
+                          <div className="flex items-center gap-3">
+                            <Brain className="w-4 h-4 text-stone-500" />
+                            <span className="text-sm font-medium text-stone-700">{model.name}</span>
+                          </div>
+                          {selectedModel === model.id && <Check className="w-4 h-4 text-emerald-500" />}
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenuPortal>
+                </DropdownMenu>
+                
+                {/* Optional Active Model label */}
+                <span className="text-xs text-stone-400 ml-2 select-none hidden sm:inline">
+                  {selectedModelData.name}
+                </span>
+              </div>
+
+              <button
+                onClick={isStreaming ? onStop : handleSend}
+                className="relative h-10 w-10 flex items-center justify-center active:scale-95 transition-transform"
+              >
+                <AnimatedOrb size={40} variant={isStreaming ? "red" : "default"} />
+                {isStreaming ? (
+                  <Square className="w-5 h-5 absolute text-white" fill="currentColor" />
+                ) : (
+                  <span className="absolute text-white text-[24px] font-bold">↵</span>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+=== D:\zentronix\components\chat\markdown-renderer.tsx ===
+"use client"
+
+import React, { useState } from "react"
+import ReactMarkdown from "react-markdown"
+import { cn } from "@/lib/utils"
+import { Check, Copy, Terminal } from "lucide-react"
+import { Button } from "@/components/ui/button"
+
+interface MarkdownRendererProps {
+  content: string
+  className?: string
+}
+
+export function MarkdownRenderer({ content, className }: MarkdownRendererProps) {
+  return (
+    <div className={cn("prose prose-stone max-w-none prose-sm md:prose-base", className)}>
+      <ReactMarkdown
+        components={{
+          p: ({ children }) => <p className="mb-4 last:mb-0 leading-relaxed text-stone-800/90">{children}</p>,
+          // Custom Code Block (The Window in your image)
+          code: ({ node, inline, className, children, ...props }: any) => {
+            const match = /language-(\w+)/.exec(className || "")
+            const language = match ? match[1] : ""
+            const codeValue = String(children).replace(/\n$/, "")
+
+            if (!inline) {
+              return <CodeBlock language={language} value={codeValue} />
+            }
+
+            // Inline Code style
+            return (
+              <code
+                className="px-1.5 py-0.5 bg-stone-100 text-stone-700 rounded-md text-[0.9em] font-mono font-medium border border-stone-200"
+                {...props}
+              >
+                {children}
+              </code>
+            )
+          },
+          // Remove default pre styling as our CodeBlock handles it
+          pre: ({ children }) => <>{children}</>,
+          strong: ({ children }) => <strong className="font-bold text-stone-900">{children}</strong>,
+          ul: ({ children }) => <ul className="list-disc ml-4 mb-4 space-y-1">{children}</ul>,
+          ol: ({ children }) => <ol className="list-decimal ml-4 mb-4 space-y-1">{children}</ol>,
+          a: ({ children, href }) => (
+            <a href={href} className="text-stone-900 underline underline-offset-4 font-medium hover:text-stone-600 transition-colors">
+              {children}
+            </a>
+          ),
+        }}
+      >
+        {content}
+      </ReactMarkdown>
+    </div>
+  )
+}
+
+// Sub-component for the Code Window
+function CodeBlock({ language, value }: { language: string; value: string }) {
+  const [copied, setCopied] = useState(false)
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(value)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  return (
+    <div className="group relative my-6 overflow-hidden rounded-xl bg-stone-950 shadow-agency border border-stone-800">
+      {/* macOS Style Header */}
+      <div className="flex items-center justify-between px-4 py-2 bg-stone-900/50 border-b border-stone-800">
+        <div className="flex items-center gap-2">
+            {/* Window Dots */}
+          <div className="flex gap-1.5">
+            <div className="w-3 h-3 rounded-full bg-red-500/20 border border-red-500/40" />
+            <div className="w-3 h-3 rounded-full bg-amber-500/20 border border-amber-500/40" />
+            <div className="w-3 h-3 rounded-full bg-emerald-500/20 border border-emerald-500/40" />
+          </div>
+          <div className="ml-4 flex items-center gap-1.5 text-stone-400 text-xs font-mono">
+            <Terminal className="w-3 h-3" />
+            <span>{language || "code"}</span>
+          </div>
+        </div>
+        
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={copyToClipboard}
+          className="h-7 w-7 text-stone-400 hover:text-white hover:bg-stone-800 transition-all"
+        >
+          {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+        </Button>
+      </div>
+
+      {/* Code Area */}
+      <div className="relative">
+        <pre className="p-4 overflow-x-auto custom-scrollbar">
+          <code className="text-sm font-mono leading-relaxed text-stone-200 block">
+            {value}
+          </code>
+        </pre>
+      </div>
+    </div>
+  )
+}
+
+=== D:\zentronix\components\chat\message-bubble.tsx ===
+"use client"
+
+import { cn } from "@/lib/utils"
+import type { Message } from "./chat-shell"
+import { User } from "lucide-react"
+import { MarkdownRenderer } from "./markdown-renderer"
+import { AnimatedOrb } from "./animated-orb"
+
+export function MessageBubble({ message, isStreaming }: { message: Message; isStreaming?: boolean }) {
+  const isUser = message.sender === "user"
+
+  return (
+    <div className={cn("flex max-w-[90%] md:max-w-[80%] gap-3 mb-6", isUser ? "ml-auto flex-row-reverse" : "mr-auto")}>
+      <div className={cn("w-8 h-8 rounded-full flex items-center justify-center shrink-0 shadow-sm", isUser ? "bg-white border" : "bg-black")}>
+        {isUser ? <User className="w-4 h-4 text-stone-600" /> : <AnimatedOrb size={32} />}
+      </div>
+
+      <div className={cn("flex flex-col", isUser ? "items-end" : "items-start")}>
+        <div
+          className={cn(
+            "rounded-2xl px-4 py-3 shadow-agency transition-all duration-300",
+            isUser ? "bg-white text-stone-800 rounded-tr-none" : "bg-transparent text-stone-800 rounded-tl-none border-none"
+          )}
+        >
+          {isUser ? (
+            <p className="text-sm whitespace-pre-wrap">{message.text}</p>
+          ) : (
+            <MarkdownRenderer content={message.text} />
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+=== D:\zentronix\components\chat\message-list.tsx ===
+"use client"
+
+import { useEffect, useRef, useState } from "react"
+import { MessageBubble } from "./message-bubble"
+import type { Message } from "./chat-shell"
+import { TypingIndicator } from "./typing-indicator"
+import { AlertCircle, RefreshCw } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { AnimatedOrb } from "./animated-orb"
+import Image from "next/image"
+
+interface MessageListProps {
+  messages: Message[]
+  isStreaming: boolean
+  error: string | null
+  onRetry: () => void
+  isLoaded: boolean // Added isLoaded prop to know when localStorage is loaded
+}
+
+const LAUNCH_SOUND_URL = "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/launch-SUi0itAGHr1wtvdDYYG5bzFLsIYHtP.mp3"
+
+export function MessageList({ messages, isStreaming, error, onRetry, isLoaded }: MessageListProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const bottomRef = useRef<HTMLDivElement>(null)
+  const [autoScroll, setAutoScroll] = useState(true)
+  const rafRef = useRef<number | null>(null)
+  const [hasAnimated, setHasAnimated] = useState(false)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+  const lastScrollRef = useRef<number>(0)
+  const hasPlayedIntroRef = useRef(false) // Track if intro has played
+
+  useEffect(() => {
+    if (!isLoaded) return // Wait for localStorage to load
+
+    // Only animate if no messages were loaded (fresh start)
+    if (messages.length === 0 && !hasPlayedIntroRef.current) {
+      setHasAnimated(true)
+      hasPlayedIntroRef.current = true
+
+      audioRef.current = new Audio(LAUNCH_SOUND_URL)
+      audioRef.current.volume = 0.5
+      audioRef.current.play().catch(() => {
+        // Ignore autoplay errors - browser may block without user interaction
+      })
+    } else if (messages.length > 0) {
+      // Skip animation if messages exist
+      setHasAnimated(false)
+      hasPlayedIntroRef.current = true
+    }
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause()
+        audioRef.current = null
+      }
+    }
+  }, [isLoaded, messages.length])
+
+  useEffect(() => {
+    if (!containerRef.current) return
+    // Immediate scroll to bottom when messages change
+    const container = containerRef.current
+    container.scrollTop = container.scrollHeight
+    setAutoScroll(true)
+  }, [messages.length])
+
+  useEffect(() => {
+    if (!isStreaming || !autoScroll || !containerRef.current) {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current)
+        rafRef.current = null
+      }
+      return
+    }
+
+    const container = containerRef.current
+    lastScrollRef.current = container.scrollTop
+
+    const smoothScroll = () => {
+      if (!container) return
+
+      const { scrollHeight, clientHeight } = container
+      const targetScroll = scrollHeight - clientHeight
+      const currentScroll = lastScrollRef.current
+      const diff = targetScroll - currentScroll
+
+      if (diff > 0.5) {
+        const newScroll = currentScroll + diff * 0.03
+        lastScrollRef.current = newScroll
+        container.scrollTop = newScroll
+      }
+
+      rafRef.current = requestAnimationFrame(smoothScroll)
+    }
+
+    // Start immediately
+    rafRef.current = requestAnimationFrame(smoothScroll)
+
+    return () => {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current)
+        rafRef.current = null
+      }
+    }
+  }, [isStreaming, autoScroll])
+
+  // Detect if user scrolls up to disable auto-scroll
+  const handleScroll = () => {
+    if (!containerRef.current || isStreaming) return
+
+    const { scrollTop, scrollHeight, clientHeight } = containerRef.current
+    const isAtBottom = scrollHeight - scrollTop - clientHeight < 150
+    setAutoScroll(isAtBottom)
+  }
+
+  const lastMessage = messages[messages.length - 1]
+  const showTypingIndicator =
+    isStreaming &&
+    (messages.length === 0 ||
+      lastMessage?.sender === "user" ||
+      (lastMessage?.sender === "bot" && lastMessage?.text === ""))
+
+  if (!isLoaded) {
+    return (
+      <div className="absolute inset-0 flex items-center justify-center">
+        <AnimatedOrb size={64} />
+      </div>
+    )
+  }
+
+  return (
+    <div
+      ref={containerRef}
+      onScroll={handleScroll}
+      className="absolute inset-0 overflow-y-auto pt-16 pb-32 space-y-4 border-none px-6"
+      role="log"
+      aria-label="Chat messages"
+      aria-live="polite"
+    >
+      {/* Empty state */}
+      {messages.length === 0 && !error && !isStreaming && (
+        <div className="flex flex-col items-center justify-center h-full text-center text-stone-400">
+          <div className={`mb-4 ${hasAnimated ? "orb-intro" : ""}`}>
+            <Image
+              src={"/images/favicon.png"}
+              alt="Zentronix Logo"
+              height={200}
+              width={200}
+            />
+          </div>
+          <p className={`text-lg font-medium text-gray-500 ${hasAnimated ? "text-blur-intro" : ""}`}>
+            Hi, my name is Zentronix
+          </p>
+          <p className={`text-sm mt-1 text-gray-400 ${hasAnimated ? "text-blur-intro-delay" : ""}`}>
+            Send a message to begin chatting with the AI assistant
+          </p>
+        </div>
+      )}
+
+      {/* Messages */}
+      {messages
+        .filter((message) => {
+          // Hide empty assistant messages during streaming - they'll be shown as typing indicator instead
+          if (isStreaming && message.sender === "bot" && message === lastMessage && message.text === "") {
+            return false
+          }
+          return true
+        })
+        .map((message, index) => (
+          <MessageBubble
+            key={index}
+            message={message}
+            isStreaming={isStreaming && message.sender === "bot" && message === lastMessage}
+          />
+        ))}
+
+      {showTypingIndicator && <TypingIndicator />}
+
+      {/* Error state */}
+      {error && (
+        <div
+          className="flex items-center gap-3 p-4 bg-red-50 border border-red-200 rounded-xl"
+          role="alert"
+          style={{
+            boxShadow:
+              "rgba(14, 63, 126, 0.04) 0px 0px 0px 1px, rgba(42, 51, 69, 0.04) 0px 1px 1px -0.5px, rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px, rgba(42, 51, 70, 0.04) 0px 6px 6px -3px, rgba(14, 63, 126, 0.04) 0px 12px 12px -6px, rgba(14, 63, 126, 0.04) 0px 24px 24px -12px",
+          }}
+        >
+          <AlertCircle className="w-5 h-5 text-red-500 shrink-0" aria-hidden="true" />
+          <div className="flex-1">
+            <p className="text-sm font-medium text-red-800">Something went wrong</p>
+            <p className="text-xs text-red-600 mt-0.5">{error}</p>
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onRetry}
+            className="text-red-600 hover:text-red-700 hover:bg-red-100 transition-colors"
+            aria-label="Retry sending message"
+          >
+            <RefreshCw className="w-4 h-4 mr-1" aria-hidden="true" />
+            Retry
+          </Button>
+        </div>
+      )}
+
+      {/* Scroll anchor */}
+      <div ref={bottomRef} aria-hidden="true" className="h-20" />
+    </div>
+  )
+}
+
+
+=== D:\zentronix\components\chat\typing-indicator.tsx ===
+"use client"
+
+import { AnimatedOrb } from "./animated-orb"
+
+export function TypingIndicator() {
+  return (
+    <div className="flex gap-3 max-w-[90%] md:max-w-[80%] mr-auto animate-in fade-in slide-in-from-bottom-2 duration-300">
+      <div className="shrink-0">
+        <AnimatedOrb size={32} />
+      </div>
+
+      {/* Typing dots */}
+      <div
+        className="px-4 py-3 rounded-2xl rounded-bl-md bg-white border border-stone-200"
+        style={{
+          boxShadow:
+            "rgba(14, 63, 126, 0.04) 0px 0px 0px 1px, rgba(42, 51, 69, 0.04) 0px 1px 1px -0.5px, rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px, rgba(42, 51, 70, 0.04) 0px 6px 6px -3px, rgba(14, 63, 126, 0.04) 0px 12px 12px -6px, rgba(14, 63, 126, 0.04) 0px 24px 24px -12px",
+        }}
+        role="status"
+        aria-label="Assistant is typing"
+      >
+        <div className="flex items-center gap-1">
+          <span className="w-2 h-2 rounded-full bg-stone-400 animate-bounce" style={{ animationDelay: "0ms" }} />
+          <span className="w-2 h-2 rounded-full bg-stone-400 animate-bounce" style={{ animationDelay: "150ms" }} />
+          <span className="w-2 h-2 rounded-full bg-stone-400 animate-bounce" style={{ animationDelay: "300ms" }} />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+
+=== D:\zentronix\components\Design.tsx ===
+"use client";
+
+import React from "react";
+import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { FreeMode } from "swiper/modules";
+
+import "swiper/css";
+import "swiper/css/free-mode";
+
+const slides = [
+  {
+    title: "Neural Logic Synthesis",
+    text: "Transform vast datasets into crystalline intelligence using Gemini’s multi-modal reasoning. We turn raw complexity into strategic clarity with sub-second precision.",
+    bg: "bg-blue-500", // Deep Intelligence
+  },
+  {
+    title: "Agentic Orchestration",
+    text: "Deploy autonomous agents that reason, plan, and execute across your ecosystem. Build self-evolving systems that grow more intelligent with every interaction.",
+    bg: "bg-yellow-500", // Technology & Clarity
+  },
+  {
+    title: "Multi-Modal Architectures",
+    text: "Seamlessly integrate text, vision, and audio into a single cognitive pipeline. Tailor Gemini 1.5 Pro to your specific enterprise context for hyper-relevant outputs.",
+    bg: "bg-green-500", // Sophistication & Foundation
+  },
+  {
+    title: "Predictive Growth Engine",
+    text: "Visualize the trajectory of your transformation. Our engine maps model performance directly to ROI, giving you a measurable blueprint for market dominance.",
+    bg: "bg-rose-500", // Impact & Action
+  },
+];
+
+export default function Design() {
+  return (
+    <section
+      className="text-primary transition-colors duration-300 pt-20 font-urbanist max-w-screen overflow-hidden"
+      id="design"
+      data-section-title="design"
+      data-toc-section="true"
+    >
+      <section className="pt-12 pb-[var(--header-height)] md:scale-(--scale) md:rounded-(--borderRadius) md:pt-6">
+        <h2 className="px-4 pb-[calc(var(--header-height)+(var(--spacing)*12))] text-center text-[42px] font-bold lg:px-6 my-14 tracking-tighter">
+          Architected for{" "}
+          <span className="font-lobster font-normal text-indigo-600">Infinite Scale</span>
+        </h2>
+
+        <div className="sticky top-[calc((var(--header-height)+(var(--spacing)*3)))]">
+          <Swiper
+            modules={[FreeMode]}
+            freeMode
+            centeredSlides
+            loop={true}
+            grabCursor
+            slidesPerView="auto"
+            spaceBetween={12}
+            className="px-4 md:px-6"
+          >
+            {slides.map((slide, i) => (
+              <SwiperSlide
+                key={i}
+                className="!w-auto max-w-[calc(100vw-2rem)]"
+              >
+                <article
+                  className={`relative grid aspect-2/3 h-[calc(100svh-(var(--header-height)*2))] max-h-[540px] flex-none snap-start gap-6 overflow-hidden rounded-xl p-6 body-2 md:aspect-3/4 2xl:max-h-[600px] 2xl:p-8 ${slide.bg} lg:aspect-3/2 lg:grid-cols-2 lg:grid-rows-1 shadow-lg`}
+                >
+                  <div className="z-10 flex flex-col justify-end lg:justify-start bg-black/40 lg:bg-transparent p-4 rounded-xl lg:p-0">
+                    <h3 className="text-[28px] font-bold  mb-4 drop-shadow-md">{slide.title}</h3>
+                    <p className="text-[20px] /90 leading-relaxed font-medium drop-shadow-sm">{slide.text}</p>
+                  </div>
+
+                  <Image
+                    alt=""
+                    src="/images/image.png"
+                    width={1800}
+                    height={2400}
+                    className="h-full w-full rounded-sm object-cover absolute lg:relative mix-blend-overlay opacity-80"
+                    style={{ objectPosition: "50% 50%" }}
+                  />
+                </article>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+      </section>
+    </section>
+  );
+}
+
+=== D:\zentronix\components\Faqs.tsx ===
+"use client"
+import React, { useState } from 'react'
+
+const faqData = [
+  { q: "What is Zentorex AI?", a: "Zentorex AI is a premium orchestration layer for Google Gemini 1.5, enabling enterprises to build autonomous, reasoning-capable digital ecosystems." },
+  { q: "How does it use Gemini 1.5 Pro?", a: "We leverage the 2-million token context window to allow the AI to reason across your entire business history, codebases, and multimodal data simultaneously." },
+  { q: "What are 'Agentic Workflows'?", a: "These are autonomous agents that don't just follow prompts—they plan, reflect, and execute complex business tasks with machine-level precision." },
+  { q: "Is my data used for training?", a: "No. Zentorex AI utilizes enterprise-grade privacy protocols. Your data is processed via private Google Cloud nodes and is never used to train public models." },
+  { q: "What is a 'Neural Audit'?", a: "It is our proprietary deep-scan of your digital infrastructure to identify where AI reasoning can replace manual bottlenecks for a 10x efficiency gain." },
+  { q: "Does it support video analysis?", a: "Yes. Through Gemini's multimodal engine, we can analyze hours of video for content gaps, sentiment, and automated metadata generation." },
+  { q: "How fast is the implementation?", a: "Core neural pipelines can be deployed within 7–14 days, with full agentic orchestration typically live within 30 days." },
+  { q: "What is Cognitive SEO?", a: "It is our shift from keywords to 'intent logic', ensuring your brand is the primary source of truth for neural search engines like Perplexity." },
+  { q: "Can I use my own API keys?", a: "Yes, Zentorex supports 'Bring Your Own Key' (BYOK) for enterprise-level cost management and transparency." },
+  { q: "What is 'Zero-Retention' architecture?", a: "For sensitive operations, we offer a pipeline where data is processed in memory and never stored on any physical disk." },
+  { q: "How does it handle long-form reasoning?", a: "By using the massive context window, we avoid the 'loss of memory' common in smaller models, ensuring consistency across 1000+ page documents." },
+  { q: "What industries do you serve?", a: "We specialize in SaaS, E-commerce, Fintech, and high-scale Digital Agencies requiring automated cognitive labor." },
+  { q: "Is there a multimodal limit?", a: "Zentorex can process text, images, audio, and video interchangeably within the same logical prompt." },
+  { q: "How do you measure AI ROI?", a: "We track 'Cognitive Hours Saved' and 'Neural Intent Match', giving you a direct financial blueprint of the AI’s impact." },
+  { q: "Does it support real-time data?", a: "Yes, our pipelines can be connected to live data streams for real-time reasoning and decision-making." },
+  { q: "What is 'Systemic Authority'?", a: "It’s our strategy for making your site the most trusted node in an AI's knowledge graph." },
+  { q: "Can it write code?", a: "Zentorex includes specialized coding agents that can refactor, document, and audit legacy codebases using Gemini's logic." },
+  { q: "How do you handle hallucinations?", a: "We use a 'Reflection Framework' where a second agent audits the first agent's output against your source truth before delivery." },
+  { q: "Is there a monthly subscription?", a: "We offer tiered enterprise plans based on the complexity of your agentic orchestration and volume of data." },
+  { q: "Can it replace my SEO team?", a: "It augments them. It handles the heavy cognitive lifting, allowing your team to focus on high-level strategy." },
+  { q: "Does it support multiple languages?", a: "Gemini 1.5 Pro is natively multilingual; Zentorex supports over 100 languages with native-level reasoning." },
+  { q: "What is a 'Neural Pipeline'?", a: "It’s a series of automated AI steps that take raw input (like a PDF) and turn it into a final product (like a 10-part campaign)." },
+  { q: "How secure is the cloud node?", a: "We use SOC2 Type II compliant infrastructure provided by Google Cloud Platform (GCP)." },
+  { q: "Can it analyze my competitors?", a: "Yes, our 'Market Reasoning' agents can scan competitor ecosystems to identify strategy gaps in real-time." },
+  { q: "What is token cost optimization?", a: "Zentorex uses 'Prompt Caching' to reduce costs for frequently asked context, saving up to 80% on long-form API calls." },
+  { q: "Do you offer developer support?", a: "Our Enterprise Tier includes dedicated Slack/Discord support with our senior neural engineers." },
+  { q: "How do I get started?", a: "Request a Neural Strategy Audit. We’ll map your growth trajectory and provide a 30-day integration roadmap." }
+];
+
+export default function Faqs() {
+  return (
+    <section className="py-24 bg-white font-urbanist" id="faqs">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="mb-16">
+          <h3 className="text-5xl font-bold tracking-tighter mb-4">
+            Architecting the <span className="font-lobster text-indigo-600 font-normal">Intelligence Era</span>
+          </h3>
+          <p className="text-stone-500 text-xl">27 insights into Gemini-powered neural growth.</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-0">
+          {faqData.map((item, i) => <FAQItem key={i} question={item.q} answer={item.a} />)}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function FAQItem({ question, answer }: { question: string, answer: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="border border-stone-200 py-3">
+      <button onClick={() => setOpen(!open)} className="w-full flex items-start justify-between text-left group px-4">
+        <span className={`text-lg font-bold ${open ? "text-indigo-600" : "text-stone-900"}`}>{question}</span>
+        <span className="text-2xl font-bold font-mono text-stone-400 bg-neutral-600 rounded-xs w-8 h-8 flex justify-center items-center aspect-square">{open ? '−' : '+'}</span>
+      </button>
+      {open && (
+        <div className="mt-2 px-4 text-stone-600 leading-relaxed text-base">
+          {answer}
+        </div>
+      )}
+    </div>
+  )
+}
+
+=== D:\zentronix\components\Header.tsx ===
+import Image from "next/image";
+import Link from "next/link";
+
+// D:\zentronix\components\Header.tsx
+export default function Header() {
+  return (
+    <header className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between px-4 py-4 md:px-8 bg-white/80 backdrop-blur-xl border-b border-gray-200 transition-colors duration-300 shadow-sm font-urbanist">
+      <Link href="/" className="flex items-center gap-3 cursor-pointer text-[36px] font-bold">
+        <Image src={"/images/favicon.png"} alt='Zentorex Logo' width={50} height={50} className="drop-shadow-sm" />
+        <span className="tracking-tight">Zentorex <span className="font-lobster font-normal text-indigo-600">AI</span></span>
+      </Link>
+
+      <div className="flex items-center gap-3">
+        <Link
+          href="/chat"
+          className="inline-flex items-center justify-center rounded-full leading-none transition-all duration-300 cursor-pointer px-6 py-3 text-white bg-black text-[20px] font-semibold shadow-md hover:bg-gray-800 hover:shadow-lg hover:-translate-y-0.5"
+        >
+          Start Building
+        </Link>
+      </div>
+    </header>
+  )
+}
+
+=== D:\zentronix\components\Hero.tsx ===
+"use client"
+
+import Image from "next/image"
+import React, { useEffect, useState } from "react"
+import { motion } from "framer-motion"
+import PlasmaGlobe from "./PlasmaGlobe"
+
+const Hero = () => {
+  const [globes, setGlobes] = useState<Array<{ id: number; top: string; left: string; scale: number; duration: string; delay: string }>>([]);
+
+  useEffect(() => {
+    const newGlobes = Array.from({ length: 10 }).map((_, i) => ({
+      id: i,
+      top: `${Math.random() * 80 + 10}%`,
+      left: `${Math.random() * 80 + 10}%`,
+      scale: Math.random() * 0.3 + 0.2, // Small globes
+      duration: `${Math.random() * 10 + 10}s`,
+      delay: `${Math.random() * 5}s`,
+    }));
+    setGlobes(newGlobes);
+  }, []);
+  
+  return (
+    <section aria-label="Hero Section" className="[--border-radius:12px] [--container-padding:16px] lg:[--container-padding:24px] max-w-screen overflow-hidden relative">
+      <motion.div
+        initial={{ y: -60, opacity: 0 }}
+        animate={{ y: -80, opacity: 1 }}
+        transition={{ duration: 0.9, ease: "easeOut" }}
+        className="top-20 flex flex-col items-center gap-3 pt-35 pb-16 lg:gap-6 sticky"
+      >
+        <p className="max-w-2xl px-6 py-2 text-center text-[20px] font-medium ">
+          The Ultimate Gemini AI Integration Engine
+        </p>
+        <h1 className="max-w-[20ch] px-4 py-2 text-center font-bold text-[50px] md:text-[98px] leading-[1.05] font-lobster">
+          Scale Your Neural Intelligence
+        </h1>
+        <p className="w-full text-right px-6 py-2 text-[24px] font-medium ">
+          Meet Zentorex AI
+        </p>
+
+        <PlasmaGlobe scale={0.75} speed={0.75} intensity={0.75} right="500px" top="50px" />
+        <PlasmaGlobe scale={0.50} speed={0.25} intensity={0.25} left="500px" top="50px" />
+      </motion.div>
+
+      <div
+        className="aspect-square h-[80svh] w-full overflow-hidden bg-black md:h-[120svh] relative"
+        style={{
+          clipPath: "inset(0px calc(var(--container-padding) * (1 - var(--entry-progress))) round calc(var(--border-radius)  * (1 - var(--entry-progress))))",
+          "--entry-progress": 0,
+        } as any}
+      >
+        <Image
+          src="/images/hero-image.png"
+          alt="Data-driven digital growth visualization"
+          fill
+          priority
+          className="object-cover z-1"
+        />
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="top-0 flex flex-col gap-3 pt-35 pb-16 lg:gap-6 fixed z-10 w-full text-white"
+        >
+          <p className="max-w-sm py-2 pr-6 pl-14 text-sm font-medium leading-[1.2] rounded-r-full bg-black/75">
+            Enterprise-Grade Gemini API Solutions
+          </p>
+          <h2 className="max-w-6xl py-2 pl-14 font-lobster tracking-wide font-bold text-4xl md:text-8xl drop-shadow-sm rounded-r-full bg-black/75">
+            Master Generative Logic
+          </h2>
+          <p className="max-w-4xl text-lg pl-14 pr-6 font-medium leading-relaxed rounded-r-full bg-black/85">
+            Leverage multimodal reasoning, long-context understanding, and autonomous agents to transform your business workflows with Zentorex AI.
+          </p>
+        </motion.div>
+      </div>
+
+      <motion.div
+        initial={{ y: 40, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.4, duration: 0.8 }}
+        className="fixed bottom-0 z-10 flex w-full origin-top justify-center px-6 pb-4 md:pb-6"
+      >
+        <a
+          className="btn-agency flex w-80 justify-between gap-1 rounded-full glass-agency px-4 py-3 backdrop-blur-xl md:px-5 lg:w-100 shadow-xl border border-white/25"
+          href="/chat"
+        >
+          <p className="font-semibold text-black">Launch Intelligence Console</p>
+          <p className="text-right">
+            <span className="pr-1.5 text-gray-800">Access Live Beta</span>
+            <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-black"></span>
+          </p>
+        </a>
+      </motion.div>
+    </section>
+  )
+}
+
+export default Hero
+
+=== D:\zentronix\components\OurStory.tsx ===
+"use client"
+
+import React, { useState } from 'react'
+
+function OurStory() {
+  const videos = ["/vedio/ourstory-2.mp4", "/vedio/ourstory-1.mp4"];
+  const [videoIndex, setVideoIndex] = useState(0);
+
+  const handleVideoEnd = () => {
+    // Switch to the next video in the array, or back to the first one
+    setVideoIndex((prevIndex) => (prevIndex + 1) % videos.length);
+  };
+
+  return (
+    <section className="transition-colors duration-300">
+      <div className="relative transition-colors duration-300">
+        <section className="p-4 transition-colors duration-300 lg:p-6 text-lg font-urbanist">
+          <p>Built for the next generation of industry leaders, Zentorex AI works tirelessly to orchestrate your neural infrastructure. Offload the complexity of Gemini AI integration and autonomous workflows to us, so you can focus entirely on high-level strategy and expanding your vision.</p>
+        </section>
+
+        <section className="lg-px-6 grid grid-cols-1 gap-6 px-4 py-24 text-primary transition-colors duration-300 md:grid-cols-12 font-urbanist">
+          <div className="grid grid-cols-1 grid-rows-2 gap-6 rounded-xl border border-border p-3 sm:grid-cols-2 sm:grid-rows-1 md:col-span-10 md:col-start-2 lg:col-span-8 lg:col-start-3">
+            <div className="flex items-center px-4">
+              <p className="mx-auto text-center text-balance text-lg">
+                Advanced intelligence should provide what matters most — autonomous reasoning and cognitive scale. Discover how our expert engineering team helps businesses dominate their market through Gemini-powered innovation.
+              </p>
+            </div>
+            
+            {/* Video Container Button */}
+            <button className="group/button flex aspect-video cursor-pointer items-center justify-center overflow-hidden rounded-md bg-black relative">
+              
+              {/* Background Video Implementation */}
+              <video
+                key={videos[videoIndex]} // Key forces re-render when source changes
+                autoPlay
+                muted
+                playsInline
+                onEnded={handleVideoEnd}
+                className="absolute inset-0 w-full h-full object-cover opacity-60 transition-scale duration-700 group-hover/button:scale-105"
+              >
+                <source src={videos[videoIndex]} type="video/mp4" />
+              </video>
+
+              {/* Button Overlay */}
+              <span className="inline-flex flex-nowrap items-center justify-center rounded-full label-1 leading-none transition-all cursor-pointer gap-1 px-3.5 py-3 group/button max-md:h-9 md:h-auto !gap-1.5 !pl-2.5 bg-white/75 backdrop-blur-xl border border-transparent hover:bg-white absolute z-10 group-hover/button:scale-110 active:scale-95" aria-disabled="false">
+                <div className="flex h-4 w-4 items-center justify-center rounded-full p-1 transition-colors bg-black/10 group-hover/button:bg-black">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-play w-3 h-3 fill-white stroke-white transition-colors" aria-hidden="true">
+                    <polygon points="6 3 20 12 6 21 6 3" />
+                  </svg>
+                </div>
+                <span className="font-semibold text-black">The Intelligence Story</span>
+              </span>
+            </button>
+          </div>
+        </section>
+      </div>
+    </section>
+  )
+}
+
+export default OurStory
+
+=== D:\zentronix\components\PlasmaGlobe.tsx ===
+"use client";
+
+import React, { useEffect, useRef } from "react";
+import { Renderer, Program, Mesh, Triangle } from "ogl";
+
+interface PlasmaGlobeProps {
+  speed?: number; // global time speed multiplier
+  intensity?: number; // color intensity multiplier
+  scale?: number;
+  top?: string;
+  left?: string;
+  right?: string;
+  bottom?: string;
+  width?: string;
+  height?: string;
+}
+
+const VERTEX_SHADER = `#version 300 es
+in vec2 position;
+void main() {
+  gl_Position = vec4(position, 0.0, 1.0);
+}
+`;
+
+const FRAGMENT_SHADER = `#version 300 es
+precision highp float;
+out vec4 fragColor;
+
+uniform float uTime;
+uniform vec2 uResolution;
+uniform vec2 uMouse;
+uniform float uSpeed;
+uniform float uIntensity;
+
+#define NUM_RAYS 13.0
+#define VOLUMETRIC_STEPS 19
+#define MAX_ITER 35
+#define FAR 6.0
+
+// small 2x2 rotation matrix
+mat2 mm2(float a){
+  float c = cos(a), s = sin(a);
+  return mat2(c, -s, s, c);
+}
+
+// simple hash-based random
+float hash1(float n){ return fract(sin(n)*43758.5453); }
+float hash2(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7)))*43758.5453); }
+
+// value noise from vec3 -> float (cheap, not high quality but ok)
+float noise3(vec3 p){
+  // grid cell
+  vec3 ip = floor(p);
+  vec3 fp = fract(p);
+  fp = fp*fp*(3.0-2.0*fp);
+
+  float n000 = hash2(ip.xy + ip.z*7.0);
+  float n100 = hash2(ip.xy + vec2(1.0,0.0) + ip.z*7.0);
+  float n010 = hash2(ip.xy + vec2(0.0,1.0) + ip.z*7.0);
+  float n110 = hash2(ip.xy + vec2(1.0,1.0) + ip.z*7.0);
+
+  float nx0 = mix(n000, n100, fp.x);
+  float nx1 = mix(n010, n110, fp.x);
+  float nxy = mix(nx0, nx1, fp.y);
+
+  // incorporate z as small modulation using hash
+  float nz = mix(nxy, hash1(ip.z + 1.0), fp.z);
+  return nz;
+}
+
+// light-weight fractal noise (based on noise3)
+float flow(vec3 p, float t){
+  float rz = 0.0;
+  vec3 bp = p;
+  float z = 2.0;
+  // a few octaves
+  for (int i = 1; i < 5; i++){
+    p += t * 0.1;
+    rz += (sin(noise3(p + t*0.8) * 6.0) * 0.5 + 0.5) / z;
+    p = mix(bp, p, 0.6);
+    z *= 2.0;
+    p *= 2.01;
+    p *= mat3(
+      0.00,  0.80,  0.60,
+     -0.80,  0.36, -0.48,
+     -0.60, -0.48,  0.64
+    );
+  }
+  return rz;
+}
+
+// helper used to create wavy variations (low-frequency)
+float sins(float x, float t){
+  float rz = 0.0;
+  float z = 2.0;
+  for (int i = 0; i < 3; i++){
+    rz += abs(fract(x * 1.4) - 0.5) / z;
+    x *= 1.3;
+    z *= 1.15;
+    x -= t * 0.65 * z;
+  }
+  return rz;
+}
+
+float segm(vec3 p, vec3 a, vec3 b){
+  vec3 pa = p - a;
+  vec3 ba = b - a;
+  float h = clamp(dot(pa, ba) / dot(ba, ba), 0.0, 1.0);
+  return length(pa - ba * h) * 0.5;
+}
+
+vec3 path(float i, float d, float t){
+  // produce a pseudo-random endpoint on unit sphere influenced by i and d
+  float sns2 = sins(d + i * 0.5, t) * 0.22;
+  float sns = sins(d + i * 0.6, t) * 0.21;
+  float a1 = (hash1(i * 10.569) - 0.5) * 6.2 + sns2;
+  float a2 = (hash1(i * 4.732) - 0.5) * 6.2 + sns;
+  vec3 en = vec3(0.0, 0.0, 1.0);
+  en.xz *= mat2(cos(a1), -sin(a1), sin(a1), cos(a1));
+  en.xy *= mat2(cos(a2), -sin(a2), sin(a2), cos(a2));
+  return en;
+}
+
+vec2 map(vec3 p, float i, float t){
+  float lp = length(p);
+  vec3 bg = vec3(0.0);
+  vec3 en = path(i, lp, t);
+  float ins = smoothstep(0.11, 0.46, lp);
+  float outs = 0.15 + smoothstep(0.0, 0.15, abs(lp - 1.0));
+  p *= ins * outs;
+  float id = ins * outs;
+  float rz = segm(p, bg, en) - 0.011;
+  return vec2(rz, id);
+}
+
+// sphere-ray intersection helper
+vec2 iSphere2(vec3 ro, vec3 rd){
+  vec3 oc = ro;
+  float b = dot(oc, rd);
+  float c = dot(oc, oc) - 1.0;
+  float h = b*b - c;
+  if (h < 0.0) return vec2(-1.0);
+  return vec2((-b - sqrt(h)), (-b + sqrt(h)));
+}
+
+// volumetric march (accumulates light along a ray)
+vec3 vmarch(vec3 ro, vec3 rd, float j, vec3 orig, float t){
+  vec3 p = ro;
+  vec3 sum = vec3(0.0);
+  for (int i = 0; i < VOLUMETRIC_STEPS; i++){
+    vec2 r = map(p, j, t);
+    p += rd * 0.03;
+    float lp = length(p);
+    // create color base per-step
+    vec3 col = sin(vec3(1.05, 2.5, 1.52) * 3.94 + r.y) * 0.85 + 0.4;
+    col *= smoothstep(0.0, 0.015, -r.x);
+    col *= smoothstep(0.04, 0.2, abs(lp - 1.1));
+    col *= smoothstep(0.1, 0.34, lp);
+    // noise modulation
+    float n = noise3(vec3(lp * 2.0 + j * 13.0 + t * 5.0));
+    // attenuate with distance from origin and add
+    float denom = max(0.0001, log(max(0.0001, distance(p, orig) - 2.0)) + 0.75);
+    sum += abs(col) * 5.0 * (1.2 - n * 1.1) / denom;
+  }
+  return sum;
+}
+
+// ray-marching distance estimator to sphere-like structures
+float march(vec3 ro, vec3 rd, float startf, float maxd, float j, float t){
+  float precis = 0.001;
+  float h = 0.5;
+  float d = startf;
+  for (int i = 0; i < MAX_ITER; i++){
+    if (abs(h) < precis || d > maxd) break;
+    d += h * 1.2;
+    float res = map(ro + rd * d, j, t).x;
+    h = res;
+  }
+  return d;
+}
+
+void main(){
+  // Normalized coords (-0.5..0.5)
+  vec2 uv = (gl_FragCoord.xy / uResolution.xy) - 0.5;
+  uv.x *= uResolution.x / uResolution.y;
+  vec2 um = (uMouse.xy / uResolution.xy) - 0.5;
+
+  // camera setup
+  vec3 ro = vec3(0.0, 0.0, 5.0);
+  vec3 rd = normalize(vec3(uv * 0.7, -1.5));
+  mat2 mx = mm2(uTime * 0.4 + um.x * 6.0);
+  mat2 my = mm2(uTime * 0.3 + um.y * 6.0);
+  ro.xz *= mx; rd.xz *= mx;
+  ro.xy *= my; rd.xy *= my;
+
+  vec3 bro = ro;
+  vec3 brd = rd;
+
+  vec3 col = vec3(0.0);
+
+  // multiple rays to create many filaments
+  for (float j = 1.0; j < NUM_RAYS + 1.0; j++){
+    ro = bro;
+    rd = brd;
+    mat2 mm = mm2((uTime * 0.1 + ((j + 1.0) * 5.1)) * j * 0.25);
+    ro.xy *= mm; rd.xy *= mm;
+    ro.xz *= mm; rd.xz *= mm;
+    float rz = march(ro, rd, 2.5, FAR, j, uTime);
+    if (rz >= FAR) continue;
+    vec3 pos = ro + rz * rd;
+    col = max(col, vmarch(pos, rd, j, bro, uTime));
+  }
+
+  ro = bro;
+  rd = brd;
+  vec2 sph = iSphere2(ro, rd);
+
+  if (sph.x > 0.0){
+    vec3 pos = ro + rd * sph.x;
+    vec3 pos2 = ro + rd * sph.y;
+    vec3 rf = reflect(rd, normalize(pos));
+    vec3 rf2 = reflect(rd, normalize(pos2));
+    float nz = (-log(abs(flow(rf * 1.2, uTime) - 0.01) + 0.00001));
+    float nz2 = (-log(abs(flow(rf2 * 1.2, -uTime) - 0.01) + 0.00001));
+    col += (0.1 * nz * nz * vec3(0.12, 0.12, 0.5) + 0.05 * nz2 * nz2 * vec3(0.55, 0.2, 0.55)) * 0.8;
+  }
+
+  // final tone mapping & intensity
+  col *= (1.0 + uIntensity * 0.6);
+  col = pow(clamp(col, 0.0, 10.0), vec3(1.5));
+  float alpha = smoothstep(0.0, 0.1, length(col));
+  fragColor = vec4(col * 1.3, alpha);
+}
+`;
+
+export default function PlasmaGlobe({
+  speed = 1.0,
+  intensity = 1.0,
+  scale = 1.0,
+  top,
+  left,
+  right,
+  bottom,
+  width = "100%",
+  height = "100%",
+}: PlasmaGlobeProps) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const mouseRef = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    // create renderer
+    const renderer = new Renderer({ alpha: true, antialias: true });
+    const gl = renderer.gl;
+    gl.clearColor(0, 0, 0, 0);
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.ONE, gl.ONE);
+
+    // geometry
+    const geometry = new Triangle(gl);
+
+    // program
+    const program = new Program(gl, {
+      vertex: VERTEX_SHADER,
+      fragment: FRAGMENT_SHADER,
+      uniforms: {
+        uTime: { value: 0 },
+        uResolution: { value: [container.offsetWidth, container.offsetHeight] },
+        uMouse: { value: [0, 0] },
+        uSpeed: { value: speed },
+        uIntensity: { value: intensity },
+      },
+    });
+
+    const mesh = new Mesh(gl, { geometry, program });
+    container.appendChild(gl.canvas);
+
+    // resize
+    const resize = () => {
+      const width = container.offsetWidth;
+      const height = container.offsetHeight;
+      renderer.setSize(width, height);
+      program.uniforms.uResolution.value = [width, height];
+    };
+    window.addEventListener("resize", resize);
+    resize();
+
+    // mouse smoothing
+    const onMouse = (e: MouseEvent) => {
+      mouseRef.current.x += (e.clientX - mouseRef.current.x) * 0.08;
+      mouseRef.current.y += (e.clientY - mouseRef.current.y) * 0.08;
+    };
+    window.addEventListener("mousemove", onMouse);
+
+    let rafId = 0;
+    const loop = (t: number) => {
+      rafId = requestAnimationFrame(loop);
+      // uTime passed in seconds, multiplied by speed
+      program.uniforms.uTime.value = (t * 0.001) * speed;
+      program.uniforms.uMouse.value = [mouseRef.current.x, mouseRef.current.y];
+      program.uniforms.uIntensity.value = intensity;
+      renderer.render({ scene: mesh });
+    };
+    rafId = requestAnimationFrame(loop);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener("resize", resize);
+      window.removeEventListener("mousemove", onMouse);
+      if (gl.canvas.parentNode === container) container.removeChild(gl.canvas);
+      gl.getExtension("WEBGL_lose_context")?.loseContext();
+    };
+  }, [speed, intensity]);
+
+  return (
+    <div
+      ref={containerRef}
+      className="fixed pointer-events-none z-0"
+      style={{ top, left, right, bottom, width, height, transform: `scale(${scale})` }}
+    />
+  );
+}
+
+
+=== D:\zentronix\components\Services.tsx ===
+import Image from 'next/image'
+import React from 'react'
+
+function Services() {
+  return (
+    <section className="transition-colors duration-300 bg-white" id="services">
+      <div className="relative transition-colors duration-300">
+        <section className="relative pb-30 transition-colors duration-300 lg:pb-12">
+
+          <div className="flex flex-col items-center gap-4 pt-40 md:pt-60 lg:pt-0">
+            <div className="flex w-full flex-col items-center justify-start gap-4 pb-24 lg:min-h-[120svh] lg:flex-row lg:justify-center lg:gap-0 font-urbanist">
+              <h2 className="sr-only">Autonomous Intelligence, Exponential Growth</h2>
+
+              <div
+                className="sticky top-[30vh] self-start max-lg:mx-auto lg:top-0"
+                style={{ marginTop: "0vh", paddingTop: "30vh", paddingBottom: "0px" }}
+              >
+                <span
+                  className="block max-w-[19ch] text-center font-bold text-8xl leading-none md:text-11xl lg:mx-[0.1em] lg:text-11xl xl:text-12xl 2xl:text-14xl tracking-tight"
+                  aria-hidden="true"
+                >
+                  Agentic
+                </span>
+              </div>
+
+              <div
+                className="sticky top-[30vh] self-start max-lg:mx-auto lg:top-0"
+                style={{ marginTop: "20vh", paddingTop: "30vh", paddingBottom: "0px" }}
+              >
+                <span
+                  className="block max-w-[19ch] text-center font-bold text-8xl leading-none md:text-11xl lg:mx-[0.1em] lg:text-11xl xl:text-12xl 2xl:text-14xl tracking-tight"
+                  aria-hidden="true"
+                >
+                  Systemic
+                </span>
+              </div>
+
+              <div
+                className="sticky top-[30vh] self-start max-lg:mx-auto lg:top-0"
+                style={{ marginTop: "40vh", paddingTop: "30vh", paddingBottom: "0px" }}
+              >
+                <span
+                  className="block max-w-[19ch] text-center font-bold text-8xl leading-none md:text-11xl lg:mx-[0.1em] lg:text-11xl xl:text-12xl 2xl:text-14xl tracking-tight"
+                  aria-hidden="true"
+                >
+                  Evolution
+                </span>
+              </div>
+            </div>
+
+            {/* Subheading */}
+            <div className="px-6 py-8 pb-32 max-w-4xl mx-auto">
+              <p className="text-center text-[20px] font-medium leading-relaxed font-urbanist">
+                Driven by Google’s Gemini 1.5 Pro architecture and our proprietary{" "}
+                <span className="decoration-black cursor-help underline decoration-dotted underline-offset-[10%] font-semibold">
+                  Neural Logic Framework
+                </span>
+                , Zentorex AI doesn’t just process data—we{" "}
+                <strong>reason, synthesize, and scale your operational intelligence at machine speed</strong>.
+                From long-context analysis to autonomous agent orchestration, we redefine the architecture
+                of modern enterprise growth.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mx-auto">
+            {/* Feature Block 1 */}
+            <div className="service-card isolate col-span-2 grid grid-cols-6 gap-6 pb-30 md:gap-4 md:px-8 md:pb-40 font-urbanist">
+              {/* Red Card Overlay */}
+              <div className="relative col-span-6 grid aspect-3/4 flex-none grid-cols-2 gap-2 overflow-hidden bg-red-600 md:aspect-3/4 md:rounded-2xl lg:aspect-video pointer-events-none shadow-xl before:pointer-events-none before:absolute before:inset-0 before:z-1 before:bg-black/10 before:content-['']">
+                <div className="pointer-events-none relative z-10 col-span-2 flex flex-col items-center justify-center gap-2 p-4 text-white">
+                  <h2 className="text-center text-balance text-[36px] font-bold drop-shadow-md">
+                    Mastering Neural Logic
+                  </h2>
+                  <div className="absolute bottom-4 left-4">
+                    <div className="group block[--media-button-icon-height:20px]">
+                      <div slot="icon" className="relative grid cursor-pointer place-items-center rounded-full bg-white/20 backdrop-blur-lg transition-colors duration-200 hover:bg-white/40" style={{ width: "24px", height: "24px" } as React.CSSProperties}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-play z-10 h-[12px] w-[12px] fill-white" aria-hidden="true"><polygon points="6 3 20 12 6 21 6 3" /></svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-span-full grid grid-cols-6 gap-4">
+                {/* Text Box */}
+                <div className="col-span-6 flex flex-col justify-between rounded-2xl border border-gray-200 bg-gray-50 p-6 max-md:mx-4 max-md:mt-4 max-md:aspect-video md:col-span-3 md:min-h-48 shadow-sm">
+                  <p className="flex-1 pb-12 font-bold text-[24px] md:pb-0">Scaling Operational Intelligence</p>
+                  <p className="pr-4 text-[20px] font-medium leading-relaxed lg:max-w-full">
+                    Zentorex AI consistently enhances your business logic, synthesizes complex multimodal data, and builds systemic authority through Gemini's 1.5 architecture.<br /><br />
+                    Let us optimize the neural pipelines, so you can focus on the high-level vision that drives global impact.
+                  </p>
+                </div>
+
+                {/* Blue Sub-Card */}
+                <div className="relative w-[calc(100%-var(--spacing)*4)] shrink-0 snap-start max-md:first-of-type:pl-4 md:w-full col-span-6 max-md:pl-4 md:col-span-3 md:flex-1">
+                  <div className="group relative isolate aspect-video flex-none grid-cols-2 gap-6 overflow-hidden rounded-2xl bg-blue-600 shadow-md grid w-full">
+                    <div className="pointer-events-none relative z-10 col-span-2 flex flex-col justify-between gap-2 p-4 text-white bg-black/10">
+                      <div className="flex items-start justify-between">
+                        <div className="flex flex-wrap gap-2 xl:items-center">
+                          <span className="inline-block w-fit rounded-md border border-white/30 bg-white/10 px-2 py-1 text-[16px] font-semibold text-white backdrop-blur-sm">Multimodal</span>
+                          <span className="inline-block w-fit rounded-md border border-white/30 bg-white/10 px-2 py-1 text-[16px] font-semibold text-white backdrop-blur-sm">Neural Scale</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <div className="relative grid cursor-pointer place-items-center rounded-full bg-white/20 backdrop-blur-lg p-2">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-play z-10 h-[12px] w-[12px] fill-white" aria-hidden="true"><polygon points="6 3 20 12 6 21 6 3" /></svg>
+                        </div>
+                        <p className="font-bold text-[20px] text-white drop-shadow-sm">Long-Context Reasoning</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="service-card isolate col-span-2 grid grid-cols-6 gap-6 pb-30 md:gap-4 md:px-8 md:pb-40 font-urbanist">
+              {/* Blue Card Overlay */}
+              <div className="relative col-span-6 grid aspect-3/4 flex-none grid-cols-2 gap-2 overflow-hidden bg-blue-600 md:aspect-3/4 md:rounded-2xl lg:aspect-video pointer-events-none shadow-xl before:pointer-events-none before:absolute before:inset-0 before:z-1 before:bg-black/10 before:content-['']">
+                <div className="pointer-events-none relative z-10 col-span-2 flex flex-col items-center justify-center gap-2 p-4 text-white">
+                  <h2 className="text-center text-balance text-[36px] font-bold drop-shadow-md">
+                    Neural Frameworks Tailored to Your Enterprise
+                  </h2>
+                  <div className="absolute bottom-4 left-4">
+                    <div className="group block [--media-button-icon-height:20px]">
+                      <div slot="icon" className="relative grid cursor-pointer place-items-center rounded-full bg-white/20 backdrop-blur-lg transition-colors duration-200 hover:bg-white/40" style={{ width: "24px", height: "24px" } as React.CSSProperties}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-play z-10 h-[12px] w-[12px] fill-white" aria-hidden="true"><polygon points="6 3 20 12 6 21 6 3" /></svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-span-full grid grid-cols-6 gap-4">
+                {/* Left Text Box */}
+                <div className="col-span-6 flex flex-col justify-between rounded-2xl border border-gray-200 bg-gray-50 p-6 max-md:mx-4 max-md:mt-4 max-md:aspect-video md:min-h-48 lg:col-span-2 shadow-sm">
+                  <p className="flex-1 pb-12 font-bold text-[24px] md:pb-0">
+                    Every enterprise is unique. We architect bespoke neural systems.
+                  </p>
+                  <p className="text-[20px] font-medium leading-relaxed md:max-w-[80%] lg:max-w-full">
+                    We believe intelligence should be autonomous and measurable. Our experts analyze your specific operational landscape to deploy Gemini-driven frameworks that capture market share and drive exponential value.
+                  </p>
+                </div>
+
+                <div className="col-span-6 no-scrollbar flex snap-x snap-mandatory gap-4 max-md:overflow-x-auto md:grid md:grid-cols-4 md:gap-4 lg:col-span-4">
+                  {/* Sub-Card 1 (Red) */}
+                  <div className="relative w-[calc(100%-var(--spacing)*4)] shrink-0 snap-start max-md:first-of-type:pl-4 md:col-span-2 md:w-full max-md:last-of-type:pr-4">
+                    <div className="group relative isolate aspect-video flex-none grid-cols-2 gap-6 overflow-hidden rounded-2xl bg-red-600 shadow-md grid w-full">
+                      <div className="pointer-events-none relative z-10 col-span-2 flex flex-col justify-between gap-2 p-4 text-white bg-black/10">
+                        <div className="flex items-start justify-between">
+                          <div className="flex flex-wrap gap-2 xl:items-center">
+                            <span className="inline-block w-fit rounded-md border border-white/30 bg-white/10 px-2 py-1 text-[16px] font-semibold text-white backdrop-blur-sm">Core</span>
+                            <span className="inline-block w-fit rounded-md border border-white/30 bg-white/10 px-2 py-1 text-[16px] font-semibold text-white backdrop-blur-sm">Engine</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <p className="font-bold text-[20px] text-white drop-shadow-sm">Gemini API Orchestration</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Sub-Card 2 (Yellow) */}
+                  <div className="relative w-[calc(100%-var(--spacing)*4)] shrink-0 snap-start max-md:first-of-type:pl-4 md:col-span-2 md:w-full max-md:last-of-type:pr-4">
+                    <div className="group relative isolate aspect-video flex-none grid-cols-2 gap-6 overflow-hidden rounded-2xl bg-yellow-500 shadow-md grid w-full">
+                      <div className="pointer-events-none relative z-10 col-span-2 flex flex-col justify-between gap-2 p-4 text-white bg-black/10">
+                        <div className="flex items-start justify-between">
+                          <div className="flex flex-wrap gap-2 xl:items-center">
+                            <span className="inline-block w-fit rounded-md border border-white/30 bg-white/10 px-2 py-1 text-[16px] font-semibold text-white backdrop-blur-sm">Agentic</span>
+                            <span className="inline-block w-fit rounded-md border border-white/30 bg-white/10 px-2 py-1 text-[16px] font-semibold text-white backdrop-blur-sm">Scale</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <p className="font-bold text-[20px] text-white drop-shadow-sm">Autonomous Agent Design</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="service-card isolate col-span-2 grid grid-cols-6 gap-6 pb-30 md:gap-4 md:px-8 md:pb-40 font-urbanist">
+              {/* Yellow Card Overlay */}
+              <div className="relative col-span-6 grid aspect-3/4 flex-none grid-cols-2 gap-2 overflow-hidden bg-yellow-500 md:aspect-3/4 md:rounded-2xl lg:aspect-video pointer-events-none shadow-xl before:pointer-events-none before:absolute before:inset-0 before:z-1 before:bg-black/10 before:content-['']">
+                <div className="pointer-events-none relative z-10 col-span-2 flex flex-col items-center justify-center gap-2 p-4 text-white">
+                  <h2 className="text-center text-balance text-[36px] font-bold drop-shadow-md">
+                    Self-Evolving Cognitive Growth
+                  </h2>
+                </div>
+              </div>
+
+              <div className="col-span-full grid grid-cols-6 gap-4">
+                {/* Left Text Box */}
+                <div className="col-span-6 flex flex-col justify-between rounded-2xl border border-gray-200 bg-gray-50 p-6 max-md:mx-4 max-md:mt-4 max-md:aspect-video md:min-h-48 lg:col-span-2 shadow-sm">
+                  <p className="flex-1 pb-12 font-bold text-[24px] md:pb-0">Continuous Neural Optimization</p>
+                  <p className="text-[20px] font-medium leading-relaxed md:max-w-[80%] lg:max-w-full">
+                    AI models evolve daily, and so do our systems. We continuously monitor, adapt, and fine-tune your autonomous agents to ensure long-term, compounding intelligence and market-leading digital visibility.
+                  </p>
+                </div>
+
+                <div className="col-span-6 no-scrollbar flex snap-x snap-mandatory gap-4 max-md:overflow-x-auto md:grid md:grid-cols-4 md:gap-4 lg:col-span-4">
+                  {/* Sub-Card 1 (Red) */}
+                  <div className="relative w-[calc(100%-var(--spacing)*4)] shrink-0 snap-start max-md:first-of-type:pl-4 md:col-span-2 md:w-full max-md:last-of-type:pr-4">
+                    <div className="group relative isolate aspect-video flex-none grid-cols-2 gap-6 overflow-hidden rounded-2xl bg-red-600 shadow-md grid w-full">
+                      <div className="pointer-events-none relative z-10 col-span-2 flex flex-col justify-between gap-2 p-4 text-white bg-black/10">
+                        <div className="flex items-start justify-between">
+                          <div className="flex flex-wrap gap-2 xl:items-center">
+                            <span className="inline-block w-fit rounded-md border border-white/30 bg-white/10 px-2 py-1 text-[16px] font-semibold text-white backdrop-blur-sm">Generative</span>
+                            <span className="inline-block w-fit rounded-md border border-white/30 bg-white/10 px-2 py-1 text-[16px] font-semibold text-white backdrop-blur-sm">Synthesis</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <p className="font-bold text-[20px] text-white drop-shadow-sm">Dynamic Content Synthesis</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Sub-Card 2 (Pink) */}
+                  <div className="relative w-[calc(100%-var(--spacing)*4)] shrink-0 snap-start max-md:first-of-type:pl-4 md:col-span-2 md:w-full max-md:last-of-type:pr-4">
+                    <div className="group relative isolate aspect-video flex-none grid-cols-2 gap-6 overflow-hidden rounded-2xl bg-pink-600 shadow-md grid w-full">
+                      <div className="pointer-events-none relative z-10 col-span-2 flex flex-col justify-between gap-2 p-4 text-white bg-black/10">
+                        <div className="flex items-start justify-between">
+                          <div className="flex flex-wrap gap-2 xl:items-center">
+                            <span className="inline-block w-fit rounded-md border border-white/30 bg-white/10 px-2 py-1 text-[16px] font-semibold text-white backdrop-blur-sm">Predictive</span>
+                            <span className="inline-block w-fit rounded-md border border-white/30 bg-white/10 px-2 py-1 text-[16px] font-semibold text-white backdrop-blur-sm">Alignment</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <p className="font-bold text-[20px] text-white drop-shadow-sm">Predictive Value Optimization</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+  )
+}
+
+export default Services
+
+=== D:\zentronix\components\Skill.tsx ===
+"use client";
+
+import React, { useLayoutEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import Link from "next/link";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const cardsData = [
+  { color: "bg-indigo-600", mode: "Gemini 1.5", speed: "Instant", title: "Multimodal Reasoning", rotate: "2deg" },
+  { color: "bg-blue-600", mode: "Neural", speed: "Deep", title: "Long-Context Synthesis", rotate: "-2deg" },
+  { color: "bg-emerald-600", mode: "Autonomous", speed: "Scale", title: "Agentic Workflow Automation", rotate: "3deg" },
+  { color: "bg-amber-500", mode: "Generative", speed: "Value", title: "Dynamic Content Synthesis", rotate: "-1.5deg" },
+  { color: "bg-purple-600", mode: "Integration", speed: "Target", title: "Custom API Orchestration", rotate: "1deg" },
+  { color: "bg-red-600", mode: "Logic", speed: "Impact", title: "Predictive Analytics", rotate: "-3deg" },
+  { color: "bg-indigo-700", mode: "Vision", speed: "OCR", title: "Visual Data Processing", rotate: "2.5deg" },
+  { color: "bg-teal-500", mode: "Reasoning", speed: "Logic", title: "Cognitive Problem Solving", rotate: "-2deg" },
+  { color: "bg-cyan-400", mode: "Strategy", speed: "Neural", title: "Semantic Market Analysis", rotate: "1.5deg" },
+  { color: "bg-orange-600", mode: "Growth", speed: "ROI", title: "Autonomous Revenue Scaling", rotate: "-1deg" },
+];
+
+export default function Skill() {
+  const cardsElRef = useRef<HTMLDivElement[]>([]);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  useLayoutEffect(() => {
+    if (!containerRef.current) return;
+
+    const cardsLength = cardsData.length + 1;
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: `+=${window.innerHeight * (cardsLength + 1)}`,
+          pin: true,
+          scrub: true,
+        },
+      });
+
+      cardsElRef.current.forEach((card, i) => {
+        if (!card) return;
+
+        tl.to(
+          card,
+          {
+            bottom: "10%",
+            rotate: cardsData[i]?.rotate || "0deg",
+            duration: 0.5,
+            ease: "power2.out",
+          },
+          i * 0.5
+        );
+      });
+
+      cardsElRef.current.forEach((card) => {
+        if (!card) return;
+        tl.to(card, { bottom: 0, duration: 0 });
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      className="relative flex min-h-screen w-full flex-col items-center justify-center py-16 lg:py-24 font-urbanist"
+    >
+      {/* Intro Section */}
+      <div className="z-10 mx-auto flex justify-center px-4 pb-16 lg:px-6 lg:pb-24">
+        <div className="max-w-[50ch] text-center text-[20px] font-medium leading-relaxed">
+          <p>
+            Our proprietary{" "}
+            <span
+              tabIndex={0}
+              className="cursor-help font-bold underline decoration-dotted underline-offset-[10%] font-lobster text-indigo-600"
+            >
+              Neural Logic
+            </span>{" "}
+            enables Zentorex AI to distill millions of data points into autonomous 
+            Gemini-powered strategies, unlocking exponential growth. What the AI 
+            reasons, we execute to perfection.
+          </p>
+        </div>
+      </div>
+
+      {/* Cards Section */}
+      {cardsData.map((card, index) => (
+        <div
+          key={index}
+          ref={(el) => {
+            if (el) cardsElRef.current[index] = el;
+          }}
+          style={{ zIndex: index + 50 }}
+          className="absolute bottom-[-100%] flex w-full items-center justify-center"
+        >
+          <div className="grid w-full grid-cols-12 gap-6 px-4 pb-16 lg:px-6 lg:pb-24">
+            <div className="group relative isolate col-span-12 grid aspect-video grid-cols-2 gap-6 overflow-hidden rounded-2xl border border-white/20 shadow-2xl md:col-span-8 md:col-start-3 lg:col-span-6 lg:col-start-4">
+              <div className="pointer-events-none relative z-10 col-span-2 flex flex-col justify-between gap-2 bg-gradient-to-t from-black/60 to-transparent p-6 text-white">
+                <div className="flex flex-wrap gap-2">
+                  <span className="rounded-md border border-white/30 bg-white/20 px-3 py-1 text-[16px] font-bold backdrop-blur-md">
+                    {card.mode}
+                  </span>
+                  <span className="rounded-md border border-white/30 bg-white/20 px-3 py-1 text-[16px] font-bold backdrop-blur-md">
+                    {card.speed}
+                  </span>
+                </div>
+                <p className="text-[28px] font-bold drop-shadow-md">{card.title}</p>
+              </div>
+
+              <div className="absolute h-full w-full overflow-hidden rounded-sm">
+                <div className={`h-full w-full ${card.color} opacity-90`} />
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+
+      {/* CTA Section */}
+      <div
+        ref={(el) => {
+          if (el) cardsElRef.current[cardsData.length] = el;
+        }}
+        style={{ zIndex: cardsData.length + 55 }}
+        className="absolute bottom-[-100%] flex w-full items-center justify-center"
+      >
+        <div className="relative z-10 flex flex-col items-center gap-10 rounded-3xl border border-gray-100 bg-white/80 p-8 shadow-sm backdrop-blur-sm">
+          <div className="max-w-[50ch] text-center text-[20px] font-medium leading-relaxed">
+            <p>
+              To date, we’ve successfully orchestrated intelligence for over 500 global brands.
+              We rigorously analyze market shifts and neural patterns to position your
+              enterprise as the ultimate authority in your industry.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Link
+              href="/chat"
+              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-300 bg-white px-8 py-4 text-[20px] font-semibold transition-all duration-300 hover:border-black hover:bg-black hover:text-white hover:shadow-lg"
+            >
+              Explore AI Capabilities
+            </Link>
+
+            <Link
+              href="/audit"
+              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-black bg-black px-8 py-4 text-[20px] font-semibold text-white transition-all duration-300 hover:border-gray-900 hover:bg-gray-900 hover:shadow-xl"
+            >
+              Get a Neural Audit
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+=== D:\zentronix\components\SmoothScroll.tsx ===
+"use client";
+
+import { useEffect, useRef } from "react";
+import "locomotive-scroll/dist/locomotive-scroll.css";
+
+export default function SmoothScroll({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    let scroll: any;
+
+    const initScroll = async () => {
+      const LocomotiveScroll = (await import("locomotive-scroll")).default;
+
+      if (!containerRef.current) return;
+
+      scroll = new LocomotiveScroll({
+        el: containerRef.current,
+        smooth: true,
+        lerp: 0.08,
+        multiplier: 1,
+        smartphone: { smooth: true },
+        tablet: { smooth: true },
+      } as any); // 👈 fix typing issue safely
+    };
+
+    initScroll();
+
+    return () => {
+      if (scroll) scroll.destroy();
+    };
+  }, []);
+
+  return (
+    <div data-scroll-container ref={containerRef}>
+      {children}
+    </div>
+  );
+}
+
+=== D:\zentronix\components\Technology.tsx ===
+import Image from 'next/image'
+import React from 'react'
+
+function Technology() {
+  return (
+    <section className="text-primary transition-colors duration-300 font-urbanist" id="technology" data-section-title="technology" data-toc-section="true">
+      <div className="relative transition-colors duration-300">
+        <section className="overflow-clip bg-white transition-colors duration-300 [--border-radius:12px] [--container-padding:16px] [--entry-progress:0] [--exit-progress:0] lg:pb-24 lg:[--container-padding:24px]">
+          
+          <div className="flex h-[180vh] flex-col justify-end">
+            <div className="h-[300vh] min-h-[300vh] w-full">
+              <div
+                className="mx-auto flex min-h-[calc(100vh-var(--spacing)*6)] w-full justify-center bg-linear-to-b from-indigo-50 via-white to-stone-100"
+                style={{
+                  clipPath: "inset(0px calc((var(--container-padding)) * var(--exit-progress)) round calc(var(--border-radius) * var(--exit-progress)))",
+                  "--exit-progress": 0
+                } as React.CSSProperties}
+              >
+                <div className="relative flex min-h-[400vh] w-full flex-col">
+                  
+                  {/* MAIN STICKY HEADLINE */}
+                  <div className="z-30 sticky top-0 flex h-svh w-full flex-col items-center justify-center px-4 text-center">
+                    <p className="font-semibold text-sm mb-4">
+                      The Gemini 1.5 Architecture
+                    </p>
+                    <h1 className="max-w-[15ch] text-[55px] md:text-[100px] font-bold leading-[0.9] tracking-tighter">
+                      From raw complexity to{" "}
+                      <span className="font-lobster font-normal text-indigo-600">Neural Mastery</span>
+                    </h1>
+                  </div>
+
+                  {/* FLOATING CONTENT BLOCKS - These appear as the user scrolls down */}
+                  <div className="relative z-40 px-6 lg:px-20 justify-between py-[35vh]">
+                    
+                    {/* Block 1 */}
+                    <div className="max-w-md bg-white/40 backdrop-blur-md p-8 rounded-3xl border border-white/20 shadow-xl">
+                      <h3 className="text-2xl font-bold mb-3">Multimodal Synthesis</h3>
+                      <p className="text-stone-600 leading-relaxed">
+                        Zentorex AI processes 2-million token context windows, allowing your enterprise to reason across text, vision, and code archives simultaneously.
+                      </p>
+                    </div>
+
+                    {/* Block 2 (Right Aligned) */}
+                    <div className="max-w-md ml-auto bg-white/40 backdrop-blur-md p-8 rounded-3xl border border-white/20 shadow-xl">
+                      <h3 className="text-2xl font-bold mb-3">Agentic Orchestration</h3>
+                      <p className="text-stone-600 leading-relaxed">
+                        Our framework deploys autonomous agents that don't just follow instructions—they plan, reflect, and execute complex business logic.
+                      </p>
+                    </div>
+
+                    {/* Block 3 */}
+                    <div className="max-w-md bg-white/40 backdrop-blur-md p-8 rounded-3xl border border-white/20 shadow-xl">
+                      <h3 className="text-2xl font-bold mb-3">Predictive Epochs</h3>
+                      <p className="text-stone-600 leading-relaxed">
+                        We optimize for the next epoch of search. By understanding neural intent, Zentorex ensures your brand remains the primary source of truth.
+                      </p>
+                    </div>
+
+                  </div>
+
+                  {/* BOTTOM STICKY IMAGE */}
+                  <div className="absolute top-1/2 left-1/2 z-20 mx-auto my-0 flex h-[100vh] w-[140vw] -translate-x-1/2 flex-col justify-end lg:aspect-square xl:max-w-1/2 pointer-events-none">
+                    <Image
+                      alt="Neural Visualization"
+                      src="/images/image.png"
+                      width={1080}
+                      height={1524}
+                      className="h-full w-full object-contain object-bottom opacity-80"
+                      style={{ objectPosition: "50% 50%" }}
+                    />
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+  )
+}
+
+export default Technology
+
+=== D:\zentronix\lib\utils.ts ===
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+
+
+=== D:\zentronix\next-env.d.ts ===
+/// <reference types="next" />
+/// <reference types="next/image-types/global" />
+import "./.next/dev/types/routes.d.ts";
+
+// NOTE: This file should not be edited
+// see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
+
+
+=== D:\zentronix\next.config.ts ===
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+      {
+        protocol: "http",
+        hostname: "**",
+      },
+    ],
+  },
+};
+
+export default nextConfig;
+

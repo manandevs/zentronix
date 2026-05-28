@@ -65,6 +65,8 @@ function Technology() {
                       src="/images/image.png"
                       width={1080}
                       height={1524}
+                      loading="lazy"
+                      sizes="(max-width: 1280px) 100vw, 50vw"
                       className="h-full w-full object-contain object-bottom opacity-80"
                       style={{ objectPosition: "50% 50%" }}
                     />

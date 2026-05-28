@@ -1,21 +1,41 @@
-"use client";
-
-import React, { useState } from "react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Header from "@/components/Header";
-import OurStory from "@/components/OurStory";
-import Services from "@/components/Services";
-import Technology from "@/components/Technology";
-import Design from "@/components/Design";
-import Faqs from "@/components/Faqs";
-import Skill from "@/components/Skill";
-import Hero from "@/components/Hero";
+import { SectionFallback } from "@/components/section-fallback";
 
+const Hero = dynamic(() => import("@/components/Hero"), {
+  loading: () => <SectionFallback minHeight="80svh" />,
+});
+
+const OurStory = dynamic(() => import("@/components/OurStory"), {
+  loading: () => <SectionFallback minHeight="50vh" />,
+});
+
+const Services = dynamic(() => import("@/components/Services"), {
+  loading: () => <SectionFallback minHeight="60vh" />,
+});
+
+const Technology = dynamic(() => import("@/components/Technology"), {
+  loading: () => <SectionFallback minHeight="70vh" />,
+});
+
+const Skill = dynamic(() => import("@/components/Skill"), {
+  loading: () => <SectionFallback minHeight="80vh" />,
+});
+
+const Design = dynamic(() => import("@/components/Design"), {
+  loading: () => <SectionFallback minHeight="50vh" />,
+});
+
+const Faqs = dynamic(() => import("@/components/Faqs"), {
+  loading: () => <SectionFallback minHeight="40vh" />,
+});
 
 export default function Home() {
   return (
-    <div className="content-blocks relative transition-colors duration-300 ">
+    <div className="content-blocks relative">
       <Header />
+
       <Hero />
       <OurStory />
       <Services />
@@ -24,31 +44,29 @@ export default function Home() {
       <Design />
       <Faqs />
 
-      <section className="space-y-16 py-12 font-urbanist">
-        {/* Block 1: Partner CTA */}
+      <section className="space-y-16 py-12">
         <div className="rounded-2xl p-6 md:px-12 bg-gray-50/50">
           <div className="flex flex-col items-center justify-center text-center">
-            <h3 className="label-1 text-[36px] font-bold leading-tight">
-              Partner with <span className="font-lobster font-normal text-indigo-600">Zentorex AI</span> today.
+            <h3 className="label-1 text-[36px] font-bold leading-tight ">
+              Partner with Zentronix today.
               <br />
-              Autonomous reasoning. Exponential scale. Cognitive dominance.
+              Exclusive strategies. Measurable ROI. Market dominance.
             </h3>
 
             <a
-              href="/chat"
-              className="inline-flex items-center justify-center rounded-full border border-black/20 px-8 py-4 font-semibold text-[20px] bg-black transition-all duration-300 hover:scale-105 text-white hover:bg-gray-900 shadow-lg hover:shadow-xl mt-6"
+              href="/beta-program"
+              className="inline-flex items-center justify-center rounded-full border border-black/20 px-8 py-4 font-semibold text-[20px] bg-black  transition-all duration-300 hover:scale-105 text-white hover:bg-gray-900 shadow-lg hover:shadow-xl mt-6"
             >
-              Secure Your Neural Audit
+              Get Your Free Audit
             </a>
           </div>
         </div>
 
-        {/* Block 2: Three-column Branding */}
         <div className="p-6">
           <div className="flex flex-col items-center justify-between gap-10 md:flex-row">
             <div className="md:flex-1">
-              <h3 className="text-center md:text-left text-[36px] font-bold leading-tight">
-                Next-Gen Enterprise Intelligence.
+              <h3 className="text-center md:text-left text-[36px] font-bold leading-tight ">
+                Comprehensive Digital Growth.
               </h3>
             </div>
 
@@ -56,41 +74,42 @@ export default function Home() {
               <div className="w-[110px] md:w-[160px]">
                 <Image
                   src="/images/favicon.png"
-                  alt="Zentorex Favicon"
+                  alt="Zentorex logo"
                   width={160}
                   height={160}
+                  sizes="(max-width: 768px) 110px, 160px"
                   className="w-full h-auto drop-shadow-md"
+                  loading="lazy"
                 />
               </div>
 
               <button
                 type="button"
-                className="inline-flex items-center justify-center rounded-full bg-black px-8 py-4 mt-8 font-semibold text-[20px] transition-all duration-300 text-white hover:bg-gray-900 shadow-lg hover:shadow-xl hover:-translate-y-1"
+                className="inline-flex items-center justify-center rounded-full bg-black px-8 py-4 mt-8  font-semibold text-[20px] transition-all duration-300 text-white hover:bg-gray-900 shadow-lg hover:shadow-xl hover:-translate-y-1"
               >
-                Launch Your AI Journey
+                Start Your Growth Journey
               </button>
             </div>
 
             <div className="hidden md:block md:flex-1">
-              <h3 className="text-right text-[36px] font-bold leading-tight">
-                Ready to orchestrate logic?
+              <h3 className="text-right text-[36px] font-bold leading-tight ">
+                Ready to dominate search?
               </h3>
             </div>
           </div>
         </div>
 
-        {/* Block 3: Newsletter */}
         <div className="rounded-2xl px-6 py-12 pb-36 light">
           <div className="flex flex-col items-center gap-6 text-center md:flex-row md:justify-center md:gap-8">
-            <h3 className="text-[36px] font-bold leading-tight">
-              Get the latest Neural Insights.
+            <h3 className="text-[36px] font-bold leading-tight ">
+              Get the latest SEO insights.
               <br />
-              Join our exclusive AI community.
+              Sign up for our newsletter.
             </h3>
 
             <button
               type="button"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-black/20 bg-black px-8 py-4 font-semibold text-[20px] transition-all duration-300 text-white hover:bg-gray-900 shadow-lg hover:shadow-xl"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-black/20 bg-black px-8 py-4 font-semibold text-[20px]  transition-all duration-300 text-white hover:bg-gray-900 shadow-lg hover:shadow-xl"
             >
               Subscribe Now
             </button>

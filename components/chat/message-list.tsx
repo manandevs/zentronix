@@ -7,6 +7,7 @@ import { TypingIndicator } from "./typing-indicator"
 import { AlertCircle, RefreshCw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { AnimatedOrb } from "./animated-orb"
+import Image from "next/image"
 
 interface MessageListProps {
   messages: Message[]
@@ -140,10 +141,15 @@ export function MessageList({ messages, isStreaming, error, onRetry, isLoaded }:
       {messages.length === 0 && !error && !isStreaming && (
         <div className="flex flex-col items-center justify-center h-full text-center text-stone-400">
           <div className={`mb-4 ${hasAnimated ? "orb-intro" : ""}`}>
-            <AnimatedOrb size={128} />
+            <Image
+              src={"/images/favicon.png"}
+              alt="Zentronix Logo"
+              height={200}
+              width={200}
+            />
           </div>
           <p className={`text-lg font-medium text-gray-500 ${hasAnimated ? "text-blur-intro" : ""}`}>
-            Hi, my name is Jarvis
+            Hi, my name is Zentronix
           </p>
           <p className={`text-sm mt-1 text-gray-400 ${hasAnimated ? "text-blur-intro-delay" : ""}`}>
             Send a message to begin chatting with the AI assistant

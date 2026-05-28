@@ -1,13 +1,10 @@
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY || "",
-  httpOptions: {
-    headers: {
-      'User-Agent': 'aistudio-build',
-    }
-  }
-});
+const apiKey = process.env.GEMINI_API_KEY;
+if (!apiKey) {
+  throw new Error("Missing GEMINI_API_KEY");
+}
+const genAI = new GoogleGenerativeAI(apiKey);
 
 export async function POST(req: Request) {
   try {
@@ -17,12 +14,12 @@ export async function POST(req: Request) {
       return new Response(JSON.stringify({ error: "Prompt is required" }), { status: 400 });
     }
 
-    const response = await ai.models.generateContent({
-      model: "gemini-3.5-flash",
-      contents: prompt,
-    });
+    // Using the 1.5 Flash model
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     
-    const text = response.text;
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const text = response.text();
 
     return new Response(JSON.stringify({ text }), { status: 200 });
   } catch (error: any) {

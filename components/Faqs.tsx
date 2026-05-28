@@ -1,113 +1,67 @@
 "use client"
 import React, { useState } from 'react'
 
-function Faqs() {
+const faqData = [
+  { q: "What is Zentorex AI?", a: "Zentorex AI is a premium orchestration layer for Google Gemini 1.5, enabling enterprises to build autonomous, reasoning-capable digital ecosystems." },
+  { q: "How does it use Gemini 1.5 Pro?", a: "We leverage the 2-million token context window to allow the AI to reason across your entire business history, codebases, and multimodal data simultaneously." },
+  { q: "What are 'Agentic Workflows'?", a: "These are autonomous agents that don't just follow prompts—they plan, reflect, and execute complex business tasks with machine-level precision." },
+  { q: "Is my data used for training?", a: "No. Zentorex AI utilizes enterprise-grade privacy protocols. Your data is processed via private Google Cloud nodes and is never used to train public models." },
+  { q: "What is a 'Neural Audit'?", a: "It is our proprietary deep-scan of your digital infrastructure to identify where AI reasoning can replace manual bottlenecks for a 10x efficiency gain." },
+  { q: "Does it support video analysis?", a: "Yes. Through Gemini's multimodal engine, we can analyze hours of video for content gaps, sentiment, and automated metadata generation." },
+  { q: "How fast is the implementation?", a: "Core neural pipelines can be deployed within 7–14 days, with full agentic orchestration typically live within 30 days." },
+  { q: "What is Cognitive SEO?", a: "It is our shift from keywords to 'intent logic', ensuring your brand is the primary source of truth for neural search engines like Perplexity." },
+  { q: "Can I use my own API keys?", a: "Yes, Zentorex supports 'Bring Your Own Key' (BYOK) for enterprise-level cost management and transparency." },
+  { q: "What is 'Zero-Retention' architecture?", a: "For sensitive operations, we offer a pipeline where data is processed in memory and never stored on any physical disk." },
+  { q: "How does it handle long-form reasoning?", a: "By using the massive context window, we avoid the 'loss of memory' common in smaller models, ensuring consistency across 1000+ page documents." },
+  { q: "What industries do you serve?", a: "We specialize in SaaS, E-commerce, Fintech, and high-scale Digital Agencies requiring automated cognitive labor." },
+  { q: "Is there a multimodal limit?", a: "Zentorex can process text, images, audio, and video interchangeably within the same logical prompt." },
+  { q: "How do you measure AI ROI?", a: "We track 'Cognitive Hours Saved' and 'Neural Intent Match', giving you a direct financial blueprint of the AI’s impact." },
+  { q: "Does it support real-time data?", a: "Yes, our pipelines can be connected to live data streams for real-time reasoning and decision-making." },
+  { q: "What is 'Systemic Authority'?", a: "It’s our strategy for making your site the most trusted node in an AI's knowledge graph." },
+  { q: "Can it write code?", a: "Zentorex includes specialized coding agents that can refactor, document, and audit legacy codebases using Gemini's logic." },
+  { q: "How do you handle hallucinations?", a: "We use a 'Reflection Framework' where a second agent audits the first agent's output against your source truth before delivery." },
+  { q: "Is there a monthly subscription?", a: "We offer tiered enterprise plans based on the complexity of your agentic orchestration and volume of data." },
+  { q: "Can it replace my SEO team?", a: "It augments them. It handles the heavy cognitive lifting, allowing your team to focus on high-level strategy." },
+  { q: "Does it support multiple languages?", a: "Gemini 1.5 Pro is natively multilingual; Zentorex supports over 100 languages with native-level reasoning." },
+  { q: "What is a 'Neural Pipeline'?", a: "It’s a series of automated AI steps that take raw input (like a PDF) and turn it into a final product (like a 10-part campaign)." },
+  { q: "How secure is the cloud node?", a: "We use SOC2 Type II compliant infrastructure provided by Google Cloud Platform (GCP)." },
+  { q: "Can it analyze my competitors?", a: "Yes, our 'Market Reasoning' agents can scan competitor ecosystems to identify strategy gaps in real-time." },
+  { q: "What is token cost optimization?", a: "Zentorex uses 'Prompt Caching' to reduce costs for frequently asked context, saving up to 80% on long-form API calls." },
+  { q: "Do you offer developer support?", a: "Our Enterprise Tier includes dedicated Slack/Discord support with our senior neural engineers." },
+  { q: "How do I get started?", a: "Request a Neural Strategy Audit. We’ll map your growth trajectory and provide a 30-day integration roadmap." }
+];
+
+export default function Faqs() {
   return (
-    <section className=" transition-colors duration-300 " id="faqs" data-section-title="faqs" data-toc-section="true">
-      <div className="relative transition-colors duration-300">
-        <section className="pt-10 pb-30 lg:pt-24 lg:pb-40">
-          <div className="grid grid-cols-12 gap-3 p-4 lg:p-6">
-            <div className="col-span-full pb-10 lg:col-span-6">
-              <h3 className="text-[36px] font-bold ">Frequently asked questions</h3>
-            </div>
-            <div className="col-span-full lg:col-span-6">
-              <div className="w-full flex flex-col gap-2" role="presentation">
-
-                <FAQItem question="What can Zentronix do for my business?">
-                  <p className="[&+&]:mt-[1em] text-[20px] leading-relaxed">Zentronix specializes in two main areas: first, <em>driving highly targeted organic traffic</em>, and second, <em>converting that traffic into qualified leads.</em></p>
-                  <p className="[&+&]:mt-[1em] text-[20px] leading-relaxed">Think of it like the difference between simply having a website and running a fully optimized digital sales engine. We source better keywords, produce high-converting content, and build digital authority.</p>
-                  <p className="[&+&]:mt-[1em] text-[20px] leading-relaxed">Today, our specialized strategies include: </p>
-                  <ul className="list-dash relative mb-[1em] list-outside pl-[1em] last-of-type:mb-0 [p+&]:mt-[1em] text-[20px] leading-relaxed">
-                    <li className="pl-3"><strong>SEO Optimization:</strong> We improve your search rankings, ensuring your brand captures high-intent traffic directly from search engines.</li>
-                    <li className="pl-3"><strong>Content Marketing:</strong> We craft authoritative, engaging content that answers your customers' needs and establishes industry leadership.</li>
-                    <li className="pl-3"><strong>Conversion Optimization:</strong> We analyze user behavior to refine your funnels, turning casual visitors into paying customers.</li>
-                  </ul>
-                  <p className="[&+&]:mt-[1em] text-[20px] leading-relaxed">We continuously improve the reliability and scale of these strategies, so your business grows sustainably out-of-the-box.</p>
-                </FAQItem>
-
-                <FAQItem question="How long does it take to see SEO results?">
-                  <p className="[&+&]:mt-[1em] text-[20px] leading-relaxed">While some technical improvements yield immediate boosts, comprehensive SEO is a strategic, long-term investment. Most of our clients see significant organic growth within <em>3 to 6 months.</em></p>
-                  <p className="[&+&]:mt-[1em] text-[20px] leading-relaxed">During the first few months, we focus on technical foundational fixes, uncovering keyword gaps, and executing high-impact content creation designed to capture market share.</p>
-                </FAQItem>
-
-                <FAQItem question="How much do your services cost?">
-                  <p className="[&+&]:mt-[1em] text-[20px] leading-relaxed">Every business has unique needs, so we don't believe in one-size-fits-all pricing. Our custom growth campaigns are designed strictly to generate a massive, positive ROI.</p>
-                  <p className="[&+&]:mt-[1em] text-[20px] leading-relaxed">Our scalable solutions grow alongside your revenue. Exact pricing structures are tailored to your objectives and will be outlined clearly after your initial strategy session.</p>
-                </FAQItem>
-
-                <FAQItem question="Do you work with businesses in my industry?">
-                  <p className="[&+&]:mt-[1em] text-[20px] leading-relaxed">Yes. We have a diverse portfolio and proven methodologies that adapt seamlessly to various industries, from local service businesses to massive e-commerce platforms and SaaS.</p>
-                  <p className="[&+&]:mt-[1em] text-[20px] leading-relaxed">Our data-first approach allows our specialists to deeply understand any niche, meticulously analyze competitors, and uncover the most profitable digital opportunities for your specific market.</p>
-                </FAQItem>
-
-                <FAQItem question="Is your SEO approach safe and compliant?">
-                  <p className="[&+&]:mt-[1em] text-[20px] leading-relaxed">Absolutely. Zentronix is uniquely engineered around strict standards for safety, privacy, and algorithm compliance. We utilize <span className="decoration-secondary underline decoration-dotted underline-offset-[10%] font-semibold">100% white-hat strategies</span>.</p>
-                  <p className="[&+&]:mt-[1em] text-[20px] leading-relaxed">Unlike risky tactics that can get a site penalized, our approach relies on building authentic authority and robust technical health, meaning your site maintains stability and continues to grow through algorithm updates.</p>
-                </FAQItem>
-
-                <FAQItem question="How do I get started with Zentronix?">
-                  <p className="[&+&]:mt-[1em] text-[20px] leading-relaxed">Getting started is simple. Request an overview of our <a className="underline font-semibold underline-offset-[20%]" href="/beta-program">Free Digital Audit here</a>. Our experts will analyze your current digital presence and outline a custom roadmap for exponential growth.</p>
-                </FAQItem>
-
-              </div>
-            </div>
-          </div>
-        </section>
+    <section className="py-24 bg-white font-urbanist" id="faqs">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="mb-16">
+          <h3 className="text-5xl font-bold tracking-tighter mb-4">
+            Architecting the <span className="font-lobster text-indigo-600 font-normal">Intelligence Era</span>
+          </h3>
+          <p className="text-stone-500 text-xl">27 insights into Gemini-powered neural growth.</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-0">
+          {faqData.map((item, i) => <FAQItem key={i} question={item.q} answer={item.a} />)}
+        </div>
       </div>
     </section>
   )
 }
 
-export default Faqs
-
-interface FAQItemProps {
-  question: string;
-  children: React.ReactNode;
-}
-
-const FAQItem: React.FC<FAQItemProps> = ({ question, children }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
+function FAQItem({ question, answer }: { question: string, answer: string }) {
+  const [open, setOpen] = useState(false);
   return (
-    <div className="overflow-hidden border-t border-gray-300 not-first:mt-6">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        type="button"
-        className="flex w-full cursor-pointer items-start justify-between text-left pt-6 pb-2"
-        aria-expanded={isOpen}
-      >
-        <span className="max-w-[60ch] flex-1">
-          <p className="text-[24px] font-bold ">{question}</p>
-        </span>
-        <span
-          className={`inline-flex shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180" : ""
-            }`}
-          aria-hidden="true"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="28"
-            height="28"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="lucide lucide-chevron-down opacity-80"
-          >
-            <path d="m6 9 6 6 6-6" />
-          </svg>
-        </span>
+    <div className="border border-stone-200 py-3">
+      <button onClick={() => setOpen(!open)} className="w-full flex items-start justify-between text-left group px-4">
+        <span className={`text-lg font-bold ${open ? "text-indigo-600" : "text-stone-900"}`}>{question}</span>
+        <span className="text-2xl font-bold font-mono text-stone-400 bg-neutral-600 rounded-xs w-8 h-8 flex justify-center items-center aspect-square">{open ? '−' : '+'}</span>
       </button>
-      <div
-        className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-          }`}
-      >
-        <div className="overflow-hidden">
-          <div className="pb-8  pt-4">{children}</div>
+      {open && (
+        <div className="mt-2 px-4 text-stone-600 leading-relaxed text-base">
+          {answer}
         </div>
-      </div>
+      )}
     </div>
-  );
-};
+  )
+}

@@ -27,11 +27,11 @@ export function AnimatedOrb({
         }
 
   const blurAmount = Math.max(6, size * 0.15)
-  const circle1Size = size * 0.45
-  const circle2Size = size * 0.35
-  const circle3Size = size * 0.5
-  const circle4Size = size * 0.25
-  const circle5Size = size * 0.3
+  const circle1Size = size * 0.95
+  const circle2Size = size * 0.90
+  const circle3Size = size * 0.85
+  const circle4Size = size * 0.80
+  const circle5Size = size * 0.75
 
   return (
     <div

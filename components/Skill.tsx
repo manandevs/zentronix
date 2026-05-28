@@ -8,16 +8,16 @@ import Link from "next/link";
 gsap.registerPlugin(ScrollTrigger);
 
 const cardsData = [
-  { color: "bg-pink-600", mode: "Organic", speed: "High", title: "Keyword Optimization", rotate: "2deg" },
-  { color: "bg-blue-600", mode: "Technical", speed: "Core", title: "Site Architecture Audit", rotate: "-2deg" },
-  { color: "bg-green-600", mode: "Authority", speed: "Scale", title: "Backlink Acquisition", rotate: "3deg" },
-  { color: "bg-yellow-500", mode: "Content", speed: "Value", title: "High-Intent Blogging", rotate: "-1.5deg" },
-  { color: "bg-purple-600", mode: "Local SEO", speed: "Target", title: "Map Pack Dominance", rotate: "1deg" },
-  { color: "bg-red-600", mode: "E-Commerce", speed: "Sales", title: "Product Page Optimization", rotate: "-3deg" },
-  { color: "bg-indigo-600", mode: "Analytics", speed: "Data", title: "Performance Reporting", rotate: "2.5deg" },
-  { color: "bg-teal-500", mode: "Conversion", speed: "UX", title: "Funnel Improvements", rotate: "-2deg" },
-  { color: "bg-cyan-400", mode: "Strategy", speed: "Plan", title: "Competitor Analysis", rotate: "1.5deg" },
-  { color: "bg-orange-600", mode: "Growth", speed: "ROI", title: "Revenue Scaling", rotate: "-1deg" },
+  { color: "bg-indigo-600", mode: "Gemini 1.5", speed: "Instant", title: "Multimodal Reasoning", rotate: "2deg" },
+  { color: "bg-blue-600", mode: "Neural", speed: "Deep", title: "Long-Context Synthesis", rotate: "-2deg" },
+  { color: "bg-emerald-600", mode: "Autonomous", speed: "Scale", title: "Agentic Workflow Automation", rotate: "3deg" },
+  { color: "bg-amber-500", mode: "Generative", speed: "Value", title: "Dynamic Content Synthesis", rotate: "-1.5deg" },
+  { color: "bg-purple-600", mode: "Integration", speed: "Target", title: "Custom API Orchestration", rotate: "1deg" },
+  { color: "bg-red-600", mode: "Logic", speed: "Impact", title: "Predictive Analytics", rotate: "-3deg" },
+  { color: "bg-indigo-700", mode: "Vision", speed: "OCR", title: "Visual Data Processing", rotate: "2.5deg" },
+  { color: "bg-teal-500", mode: "Reasoning", speed: "Logic", title: "Cognitive Problem Solving", rotate: "-2deg" },
+  { color: "bg-cyan-400", mode: "Strategy", speed: "Neural", title: "Semantic Market Analysis", rotate: "1.5deg" },
+  { color: "bg-orange-600", mode: "Growth", speed: "ROI", title: "Autonomous Revenue Scaling", rotate: "-1deg" },
 ];
 
 export default function Skill() {
@@ -67,21 +67,22 @@ export default function Skill() {
   return (
     <div
       ref={containerRef}
-      className="relative flex min-h-screen w-full flex-col items-center justify-center py-16 lg:py-24"
+      className="relative flex min-h-screen w-full flex-col items-center justify-center py-16 lg:py-24 font-urbanist"
     >
       {/* Intro Section */}
       <div className="z-10 mx-auto flex justify-center px-4 pb-16 lg:px-6 lg:pb-24">
-        <div className="max-w-[50ch] text-center text-[20px] font-medium leading-relaxed ">
+        <div className="max-w-[50ch] text-center text-[20px] font-medium leading-relaxed">
           <p>
             Our proprietary{" "}
             <span
               tabIndex={0}
-              className="cursor-help font-bold underline decoration-dotted underline-offset-[10%]"
+              className="cursor-help font-bold underline decoration-dotted underline-offset-[10%] font-lobster text-indigo-600"
             >
-              Growth Frameworks
+              Neural Logic
             </span>{" "}
-            enable Zentronix to distill millions of data points into actionable SEO strategies,
-            unlocking exponential traffic growth. What the data reveals, we execute to perfection.
+            enables Zentorex AI to distill millions of data points into autonomous 
+            Gemini-powered strategies, unlocking exponential growth. What the AI 
+            reasons, we execute to perfection.
           </p>
         </div>
       </div>
@@ -127,27 +128,27 @@ export default function Skill() {
         className="absolute bottom-[-100%] flex w-full items-center justify-center"
       >
         <div className="relative z-10 flex flex-col items-center gap-10 rounded-3xl border border-gray-100 bg-white/80 p-8 shadow-sm backdrop-blur-sm">
-          <div className="max-w-[50ch] text-center text-[20px] font-medium leading-relaxed ">
+          <div className="max-w-[50ch] text-center text-[20px] font-medium leading-relaxed">
             <p>
-              To date, we’ve successfully partnered with over 500 ambitious brands.
-              We rigorously analyze market trends and consumer behavior to position your
-              business as the authority in your industry.
+              To date, we’ve successfully orchestrated intelligence for over 500 global brands.
+              We rigorously analyze market shifts and neural patterns to position your
+              enterprise as the ultimate authority in your industry.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
-              href="/"
-              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-300 bg-white px-8 py-4 text-[20px] font-semibold  transition-all duration-300 hover:border-black hover:bg-black hover:text-white hover:shadow-lg"
+              href="/chat"
+              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-300 bg-white px-8 py-4 text-[20px] font-semibold transition-all duration-300 hover:border-black hover:bg-black hover:text-white hover:shadow-lg"
             >
-              Explore Our Services
+              Explore AI Capabilities
             </Link>
 
             <Link
-              href="/contact"
+              href="/audit"
               className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-black bg-black px-8 py-4 text-[20px] font-semibold text-white transition-all duration-300 hover:border-gray-900 hover:bg-gray-900 hover:shadow-xl"
             >
-              Get a Free Audit
+              Get a Neural Audit
             </Link>
           </div>
         </div>

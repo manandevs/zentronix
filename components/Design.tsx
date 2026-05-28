@@ -10,49 +10,50 @@ import "swiper/css/free-mode";
 
 const slides = [
   {
-    title: "Data-Driven Decisions",
-    text: "We base every decision on hard data and advanced analytics. Our dedicated SEO developers ensure your strategy targets high-converting keywords with precise accuracy.",
-    dark: true,
-    bg: "bg-amber-500"
+    title: "Neural Logic Synthesis",
+    text: "Transform vast datasets into crystalline intelligence using Gemini’s multi-modal reasoning. We turn raw complexity into strategic clarity with sub-second precision.",
+    bg: "bg-blue-500", // Deep Intelligence
   },
   {
-    title: "Sustainable Organic Growth",
-    text: "Our white-hat SEO techniques build a rock-solid foundation, protecting your digital assets from algorithm penalties and ensuring long-term visibility.",
-    bg: "bg-indigo-600",
+    title: "Agentic Orchestration",
+    text: "Deploy autonomous agents that reason, plan, and execute across your ecosystem. Build self-evolving systems that grow more intelligent with every interaction.",
+    bg: "bg-yellow-500", // Technology & Clarity
   },
   {
-    title: "Tailored to Your Business",
-    text: "We customize every growth campaign to fit your unique market landscape, audience intent, and specific revenue objectives.",
-    bg: "bg-orange-600"
+    title: "Multi-Modal Architectures",
+    text: "Seamlessly integrate text, vision, and audio into a single cognitive pipeline. Tailor Gemini 1.5 Pro to your specific enterprise context for hyper-relevant outputs.",
+    bg: "bg-green-500", // Sophistication & Foundation
   },
   {
-    title: "Transparent and Measurable",
-    text: "We provide clear, jargon-free reporting so you always know exactly how your campaigns are performing and what ROI you are achieving.",
-    bg: "bg-lime-600",
+    title: "Predictive Growth Engine",
+    text: "Visualize the trajectory of your transformation. Our engine maps model performance directly to ROI, giving you a measurable blueprint for market dominance.",
+    bg: "bg-rose-500", // Impact & Action
   },
 ];
 
 export default function Design() {
   return (
     <section
-      className="text-primary transition-colors duration-300 pt-20"
+      className="text-primary transition-colors duration-300 pt-20 font-urbanist max-w-screen overflow-hidden"
       id="design"
       data-section-title="design"
       data-toc-section="true"
     >
       <section className="pt-12 pb-[var(--header-height)] md:scale-(--scale) md:rounded-(--borderRadius) md:pt-6">
-        <h2 className="px-4 pb-[calc(var(--header-height)+(var(--spacing)*12))] text-center text-[36px] font-bold  lg:px-6 my-14">
-          Engineered for Rapid Growth
+        <h2 className="px-4 pb-[calc(var(--header-height)+(var(--spacing)*12))] text-center text-[42px] font-bold lg:px-6 my-14 tracking-tighter">
+          Architected for{" "}
+          <span className="font-lobster font-normal text-indigo-600">Infinite Scale</span>
         </h2>
 
         <div className="sticky top-[calc((var(--header-height)+(var(--spacing)*3)))]">
           <Swiper
             modules={[FreeMode]}
             freeMode
+            centeredSlides
             loop={true}
             grabCursor
             slidesPerView="auto"
-            spaceBetween={8}
+            spaceBetween={12}
             className="px-4 md:px-6"
           >
             {slides.map((slide, i) => (

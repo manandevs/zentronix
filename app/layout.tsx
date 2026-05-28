@@ -26,46 +26,17 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://zentronix.com"),
   title: {
-    default: "Zentronix | SEO & Digital Growth Agency",
-    template: "%s | Zentronix",
+    default: "Zentorex AI | Next-Gen Intelligence",
+    template: "%s | Zentorex AI",
   },
-  description: "Zentronix – Premier SEO & Digital Growth Agency. Scale your business, drive organic traffic, and generate leads with data-driven strategies.",
-  keywords: ["SEO Agency", "Digital Growth", "Lead Generation", "Search Dominance", "Zentronix"],
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "https://zentronix.com",
-    siteName: "Zentronix",
-    images: [{ url: "/images/og-image.png", width: 1200, height: 630, alt: "Zentronix Digital Growth" }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Zentronix | SEO & Digital Growth Agency",
-    images: ["/images/og-image.png"],
-  },
+  description: "Zentorex AI – Powered by Gemini. The ultimate AI-native growth engine for modern enterprises.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Zentronix",
-    "url": "https://zentronix.com",
-    "logo": "https://zentronix.com/images/favicon.png",
-    "description": "Premier SEO & Digital Growth Agency for business scaling."
-  };
-
   return (
-    <html lang="en" className={cn("font-sans", geist.variable, urbanist.variable)}>
-      <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-      </head>
-      <body className={`${lobster.variable} antialiased font-lobster bg-white`}>
+    <html lang="en" className={cn(geist.variable, urbanist.variable, lobster.variable)}>
+      <body className="antialiased font-urbanist bg-white text-stone-950">
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>

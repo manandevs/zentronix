@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect } from "react"
 import { MessageSquareDashed } from "lucide-react"
 import { MessageList } from "./message-list"
 import { Composer } from "./composer"
@@ -45,7 +45,7 @@ export function ChatShell() {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: content }), // Logic from your working code
+        body: JSON.stringify({ prompt: content }),
       })
 
       if (!response.ok) throw new Error("Failed to fetch response")
@@ -83,8 +83,6 @@ export function ChatShell() {
         onSend={handleSubmit}
         onStop={() => {}}
         isStreaming={loading}
-        selectedModel="google/gemini-2.0-flash-001"
-        onModelChange={() => {}}
       />
     </div>
   )

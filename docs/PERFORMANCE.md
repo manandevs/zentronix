@@ -27,8 +27,8 @@ Target: **Lighthouse 95+** on Performance, SEO, Accessibility, Best Practices af
 | Library | ~Impact | Usage |
 |---------|---------|--------|
 | `ogl` + PlasmaGlobe | High | Hero only — lazy, no SSR |
-| `gsap` + ScrollTrigger | High | `Skill.tsx` only — below fold chunk |
-| `swiper` | Medium | `Design.tsx` only — below fold chunk |
+| `gsap` + ScrollTrigger | High | `skill.tsx` only — below fold chunk |
+| `swiper` | Medium | `design.tsx` only — below fold chunk |
 | `framer-motion` | Medium | Hero — mitigated via `LazyMotion` + `optimizePackageImports` |
 | Chat (`react-markdown`, lucide) | Medium | `/chat` route only — dynamic `ChatShell` |
 
@@ -68,7 +68,7 @@ Target: **Lighthouse 95+** on Performance, SEO, Accessibility, Best Practices af
 ### Server Components & code splitting
 ```tsx
 // app/page.tsx — Server Component (no "use client")
-const Skill = dynamic(() => import("@/components/Skill"), {
+const Skill = dynamic(() => import("@/components/skill"), {
   loading: () => <SectionFallback minHeight="80vh" />,
 });
 ```
@@ -83,7 +83,7 @@ import { LazyMotion, domAnimation, m } from "framer-motion";
 
 ### WebGL deferred
 ```tsx
-const PlasmaGlobe = dynamic(() => import("@/components/PlasmaGlobe"), {
+const PlasmaGlobe = dynamic(() => import("@/components/plasma-globe"), {
   ssr: false,
   loading: () => null,
 });
@@ -172,8 +172,8 @@ const PlasmaGlobe = dynamic(() => import("@/components/PlasmaGlobe"), {
 
 ## 6. Remaining manual tasks
 
-1. **Remove dead code:** `components/SmoothScroll.tsx` (unused; `locomotive-scroll` removed from deps).
-2. **Run:** `pnpm install` (or `npm install`) after dependency cleanup.
+1. **Dead code removed:** unused scroll helper, orphan chat widgets, and dev listing scripts.
+2. **Run:** `npm install` after dependency cleanup.
 3. **Convert static sections:** `Services.tsx` / `Technology.tsx` are already server-safe — ensure no accidental `"use client"`.
 4. **Bundle analysis:** `npx @next/bundle-analyzer` (optional dev dependency).
 5. **Measure:** Lighthouse CI on production URL; track LCP & INP in CrUX.

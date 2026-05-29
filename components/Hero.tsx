@@ -1,13 +1,14 @@
-"use client";
+"use client"
 
-import Image from "next/image";
-import dynamic from "next/dynamic";
-import { LazyMotion, domAnimation, m } from "framer-motion";
+import Image from "next/image"
+import { motion } from "framer-motion"
+import dynamic from "next/dynamic"
 
-const PlasmaGlobe = dynamic(() => import("@/components/PlasmaGlobe"), {
+const PlasmaGlobe = dynamic(() => import("@/components/plasma-globe"), {
   ssr: false,
   loading: () => null,
 });
+
 
 const Hero = () => {
   return (
@@ -15,8 +16,7 @@ const Hero = () => {
       aria-label="Hero Section"
       className="[--border-radius:12px] [--container-padding:16px] lg:[--container-padding:24px] max-w-screen overflow-hidden relative"
     >
-      <LazyMotion features={domAnimation} strict>
-        <m.div
+        <motion.div
           initial={{ y: -60, opacity: 0 }}
           animate={{ y: -80, opacity: 1 }}
           transition={{ duration: 0.9, ease: "easeOut" }}
@@ -36,7 +36,7 @@ const Hero = () => {
             scale={0.75}
             speed={0.75}
             intensity={0.75}
-            right="500px"
+            right="600px"
             top="50px"
           />
           <PlasmaGlobe
@@ -46,7 +46,7 @@ const Hero = () => {
             left="750px"
             top="5px"
           />
-        </m.div>
+        </motion.div>
 
         <div
           className="aspect-square h-[80svh] w-full overflow-hidden bg-black md:h-[120svh] relative"
@@ -69,7 +69,7 @@ const Hero = () => {
             className="object-cover z-1"
           />
 
-          <m.div
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: "easeOut" }}
@@ -86,10 +86,10 @@ const Hero = () => {
               autonomous agents to transform your business workflows with
               Zentorex AI.
             </p>
-          </m.div>
+          </motion.div>
         </div>
 
-        <m.div
+        <motion.div
           initial={{ y: 40, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.8 }}
@@ -108,8 +108,7 @@ const Hero = () => {
               />
             </p>
           </a>
-        </m.div>
-      </LazyMotion>
+        </motion.div>
     </section>
   );
 };

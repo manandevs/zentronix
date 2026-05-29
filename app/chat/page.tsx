@@ -1,16 +1,5 @@
-import dynamic from "next/dynamic";
 import type { Metadata } from "next";
-import { SectionFallback } from "@/components/section-fallback";
-
-const ChatShell = dynamic(
-  () =>
-    import("@/components/chat/chat-shell").then((mod) => ({
-      default: mod.ChatShell,
-    })),
-  {
-    loading: () => <SectionFallback minHeight="100dvh" />,
-  }
-);
+import ChatView from "./chat-view";
 
 export const metadata: Metadata = {
   title: "Chat - AI Assistant",
@@ -20,7 +9,7 @@ export const metadata: Metadata = {
 export default function ChatPage() {
   return (
     <div className="font-urbanist">
-      <ChatShell />
+      <ChatView />
     </div>
   );
 }

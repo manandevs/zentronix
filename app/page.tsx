@@ -1,33 +1,29 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import Header from "@/components/Header";
+import Header from "@/components/header";
 import { SectionFallback } from "@/components/section-fallback";
+import { ServicesIntro } from "@/components/services-intro";
+import { NeuralLogicBlock } from "@/components/neural-logic-block";
+import { EnterpriseFrameworkBlock } from "@/components/enterprise-framework-block";
+import { CognitiveGrowthBlock } from "@/components/cognitive-growth-block";
 
-const Hero = dynamic(() => import("@/components/Hero"), {
+const Hero = dynamic(() => import("@/components/hero"), {
   loading: () => <SectionFallback minHeight="80svh" />,
 });
 
-const OurStory = dynamic(() => import("@/components/OurStory"), {
+const OurStory = dynamic(() => import("@/components/our-story"), {
   loading: () => <SectionFallback minHeight="50vh" />,
 });
 
-const Services = dynamic(() => import("@/components/Services"), {
-  loading: () => <SectionFallback minHeight="60vh" />,
-});
-
-const Technology = dynamic(() => import("@/components/Technology"), {
-  loading: () => <SectionFallback minHeight="70vh" />,
-});
-
-const Skill = dynamic(() => import("@/components/Skill"), {
+const Skill = dynamic(() => import("@/components/skill"), {
   loading: () => <SectionFallback minHeight="80vh" />,
 });
 
-const Design = dynamic(() => import("@/components/Design"), {
+const Design = dynamic(() => import("@/components/design"), {
   loading: () => <SectionFallback minHeight="50vh" />,
 });
 
-const Faqs = dynamic(() => import("@/components/Faqs"), {
+const Faqs = dynamic(() => import("@/components/faqs"), {
   loading: () => <SectionFallback minHeight="40vh" />,
 });
 
@@ -35,11 +31,13 @@ export default function Home() {
   return (
     <div className="content-blocks relative">
       <Header />
-
       <Hero />
       <OurStory />
-      <Services />
-      <Technology />
+      {/* <AgenticSection /> */}
+      <ServicesIntro />
+      <NeuralLogicBlock />
+      <EnterpriseFrameworkBlock />
+      <CognitiveGrowthBlock />
       <Skill />
       <Design />
       <Faqs />

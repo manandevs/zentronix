@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 
-// D:\zentronix\components\Header.tsx
 export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between px-4 py-4 md:px-8 bg-white/80 backdrop-blur-xl border-b border-gray-200 transition-colors duration-300 shadow-sm font-urbanist">
@@ -15,7 +14,7 @@ export default function Header() {
           sizes="50px"
           className="drop-shadow-sm"
         />
-        <span className="tracking-tight">Zentorex <span className="font-lobster font-normal text-indigo-600">AI</span></span>
+        <span className="tracking-tight hidden md:block">Zentorex <span className="font-lobster font-normal text-indigo-600">AI</span></span>
       </Link>
 
       <div className="flex items-center gap-3">

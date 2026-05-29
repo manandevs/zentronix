@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { MessageBubble } from "./message-bubble"
-import type { Message } from "./chat-shell"
+import type { Message } from "./types"
 import { TypingIndicator } from "./typing-indicator"
 import { AlertCircle, RefreshCw } from "lucide-react"
 import { Button } from "@/components/ui/button"

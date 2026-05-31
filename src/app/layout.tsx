@@ -4,6 +4,7 @@ import { Urbanist, Lobster_Two } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/config/site";
+import { Toaster } from "@/components/ui/sonner";
 
 const urbanist = Urbanist({ subsets: ["latin"], variable: "--font-urbanist", });
 const lobster = Lobster_Two({ weight: "400", subsets: ["latin"], variable: "--font-lobster", });
@@ -75,7 +76,10 @@ export default function RootLayout({
         lobster.variable
       )}
     >
-      <body className="min-h-screen">{children}</body>
+      <body className="min-h-screen">
+        {children}
+        <Toaster />
+      </body>
     </html>
   );
 }

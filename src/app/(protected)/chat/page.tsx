@@ -5,90 +5,56 @@ import { MessageSquareDashed } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Composer } from "@/components/chat/composer";
 import { MessageList } from "@/components/chat/message-list";
+import { AI_MODELS } from "@/config/ai-models";
 
 export default function ChatPage() {
   const [loading, setLoading] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedModel, setSelectedModel] = useState<AIModel>(AI_MODELS[0]);
 
   const handleSend = async (text: string) => {
+    setMessages((prev) => [...prev, { sender: "user", text }]);
     setLoading(true);
+    setError(null);
 
     try {
-      await fetch("/api/chat", {
+      const response = await fetch("/api/chat", {
         method: "POST",
-        body: JSON.stringify({ prompt: text }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: text, model: selectedModel }),
       });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        const apiError =
+          data?.error?.message ||
+          data?.message ||
+          `Request failed (${response.status})`;
+        setError(apiError);
+        return;
+      }
+
+      setMessages((prev) => [
+        ...prev,
+        { sender: "bot", text: data.message },
+      ]);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Something went wrong.";
+      setError(message);
     } finally {
       setLoading(false);
     }
   };
 
-  // 👇 dummy data
-const messages: Message[] = [
-  {
-    sender: "user",
-    text: "Hello!",
-  },
-  {
-    sender: "bot",
-    text: "Hi! How can I help you today?",
-  },
-  {
-    sender: "user",
-    text: "I want to build a chat app in Next.js.",
-  },
-  {
-    sender: "bot",
-    text: "Great choice. Next.js works really well for chat apps, especially with API routes and streaming.",
-  },
-  {
-    sender: "user",
-    text: "Can I use WebSockets for real-time messaging?",
-  },
-  {
-    sender: "bot",
-    text: "Yes, you can use WebSockets via libraries like Socket.io or Pusher. For simpler setups, polling or server-sent events also work.",
-  },
-  {
-    sender: "user",
-    text: "What about state management?",
-  },
-  {
-    sender: "bot",
-    text: "You can start with React state or Context. For larger apps, Zustand or Redux Toolkit are solid options.",
-  },
-  {
-    sender: "user",
-    text: "How do I handle loading states?",
-  },
-  {
-    sender: "bot",
-    text: "Typically you use an `isLoading` or `isStreaming` flag while waiting for API responses, just like you're doing now.",
-  },
-  {
-    sender: "user",
-    text: "Can I stream responses like ChatGPT?",
-  },
-  {
-    sender: "bot",
-    text: "Yes. You can use the Fetch API with ReadableStream or frameworks like Vercel AI SDK for token streaming.",
-  },
-  {
-    sender: "user",
-    text: "That sounds cool. Any UI tips?",
-  },
-  {
-    sender: "bot",
-    text: "Keep messages in a scrollable container, auto-scroll on new messages, and differentiate user vs bot styling clearly.",
-  },
-  {
-    sender: "user",
-    text: "Thanks! This helps a lot.",
-  },
-  {
-    sender: "bot",
-    text: "You're welcome! Let me know if you want help wiring the backend next.",
-  },
-];
+  const handleRetry = () => {
+    const lastUserMessage = [...messages].reverse().find((m) => m.sender === "user");
+    if (lastUserMessage) {
+      setError(null);
+      handleSend(lastUserMessage.text);
+    }
+  };
 
   return (
     <div className="relative h-screen w-screen bg-stone-50 overflow-hidden">
@@ -100,14 +66,19 @@ const messages: Message[] = [
         <MessageSquareDashed className="w-5 h-5" />
       </Button>
 
-      <Composer onSend={handleSend} isStreaming={loading} />
-
       <MessageList
         messages={messages}
         isStreaming={loading}
-        error={null}
-        onRetry={() => { }}
+        error={error}
+        onRetry={handleRetry}
         isLoaded={true}
+      />
+
+      <Composer
+        onSend={handleSend}
+        isStreaming={loading}
+        selectedModel={selectedModel}
+        onModelChange={(model) => setSelectedModel(model)}
       />
     </div>
   );

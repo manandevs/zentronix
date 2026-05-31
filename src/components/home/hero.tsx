@@ -36,7 +36,7 @@ const Hero = () => {
           scale={0.75}
           speed={0.25}
           intensity={0.75}
-          right="600px"
+          right="750px"
           top="50px"
         />
         <PlasmaGlobe

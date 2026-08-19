@@ -45,6 +45,21 @@ Initialize Slice Machine with:
 npx @slicemachine/init@latest
 ```
 
+This project keeps `slicemachine.config.json` and
+`@slicemachine/adapter-next` because the local Slice Machine launcher requires
+both. If a later `npx prismic init` migration removes either one, restore the
+adapter with:
+
+```powershell
+npm install --save-dev @slicemachine/adapter-next
+```
+
+Then start Slice Machine with:
+
+```powershell
+npm run slicemachine
+```
+
 If initialization reports `Invalid context provided` while pulling existing
 types, confirm that you are logged in to the correct Prismic account and
 repository, then run `npx prismic pull` or start Slice Machine manually:

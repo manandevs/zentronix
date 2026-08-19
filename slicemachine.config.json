@@ -1,0 +1,5 @@
+{
+  "repositoryName": "zentronix",
+  "adapter": "@slicemachine/adapter-next",
+  "libraries": ["./slices"]
+}

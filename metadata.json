@@ -1,0 +1,6 @@
+{
+  "name": "Zentronix AI",
+  "description": "Enterprise neural intelligence platform and agentic workflows",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

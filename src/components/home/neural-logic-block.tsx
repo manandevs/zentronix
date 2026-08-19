@@ -23,7 +23,7 @@ export function NeuralLogicBlock() {
           <p className="pr-4 text-[20px] font-medium leading-relaxed lg:max-w-full">
             Zentorex AI consistently enhances your business logic, synthesizes
             complex multimodal data, and builds systemic authority through
-            Gemini's 1.5 architecture.
+            Gemini&apos;s 1.5 architecture.
             <br />
             <br />
             Let us optimize the neural pipelines, so you can focus on the

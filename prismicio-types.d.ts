@@ -92,6 +92,37 @@ export interface SettingsDocumentDataNavigationItem {
 }
 
 /**
+ * Item in *Settings → CTA Button*
+ */
+export interface SettingsDocumentDataCtaButtonItem {
+  /**
+   * Button Link field in *Settings → CTA Button*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: Select or enter link destination...
+   * - **API ID Path**: settings.cta_button[].button_link
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  button_link: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
+
+  /**
+   * Button Label field in *Settings → CTA Button*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Enter button text (e.g., Start Building)...
+   * - **API ID Path**: settings.cta_button[].button_label
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  button_label: prismic.KeyTextField;
+}
+
+/**
  * Content for Settings documents
  */
 interface SettingsDocumentData {
@@ -118,6 +149,17 @@ interface SettingsDocumentData {
   meta_description: prismic.KeyTextField;
 
   /**
+   * Favicon field in *Settings*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.favicon
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  favicon: prismic.ImageField<never>;
+
+  /**
    * OG Image field in *Settings*
    *
    * - **Field Type**: Image
@@ -138,6 +180,17 @@ interface SettingsDocumentData {
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
    */
   navigation: prismic.GroupField<Simplify<SettingsDocumentDataNavigationItem>>;
+
+  /**
+   * CTA Button field in *Settings*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.cta_button[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  cta_button: prismic.GroupField<Simplify<SettingsDocumentDataCtaButtonItem>>;
 }
 
 /**
@@ -182,6 +235,7 @@ declare module "@prismicio/client" {
       SettingsDocument,
       SettingsDocumentData,
       SettingsDocumentDataNavigationItem,
+      SettingsDocumentDataCtaButtonItem,
       AllDocumentTypes,
     };
   }

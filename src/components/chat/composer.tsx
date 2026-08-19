@@ -11,7 +11,6 @@ import {
   DropdownMenuPortal,
 } from "@/components/ui/dropdown-menu";
 import { AnimatedOrb } from "../shared/animated-orb";
-import { AI_MODELS } from "@/config/ai-models";
 import { useRef, useState } from "react";
 
 interface ComposerProps {
@@ -19,8 +18,6 @@ interface ComposerProps {
   onStop?: () => void;
   isStreaming: boolean;
   disabled?: boolean;
-  selectedModel?: AIModel;
-  onModelChange?: (model: AIModel) => void;
 }
 
 export function Composer({
@@ -28,8 +25,6 @@ export function Composer({
   onStop,
   isStreaming,
   disabled,
-  selectedModel = AI_MODELS[0],
-  onModelChange,
 }: ComposerProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [text, setText] = useState("");
@@ -84,7 +79,7 @@ export function Composer({
 
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1">
-              <DropdownMenu>
+              {/* <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
@@ -121,11 +116,11 @@ export function Composer({
                     ))}
                   </DropdownMenuContent>
                 </DropdownMenuPortal>
-              </DropdownMenu>
+              </DropdownMenu> */}
 
               {/* ✅ Shows the selected model string directly */}
               <span className="text-xs text-stone-400 ml-2 select-none hidden sm:inline">
-                {selectedModel.replace("google/", "").split("-").slice(0, 2).join(" ").toUpperCase()}
+                models/gemini-3.6-flash
               </span>
             </div>
 

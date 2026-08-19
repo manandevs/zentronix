@@ -5,7 +5,6 @@ import { MessageSquareDashed, FileJson, FileText, Trash2, X } from "lucide-react
 import { Button } from "@/components/ui/button";
 import { Composer } from "@/components/chat/composer";
 import { MessageList } from "@/components/chat/message-list";
-import { AI_MODELS } from "@/config/ai-models";
 
 interface Message {
   sender: "user" | "bot";
@@ -28,7 +27,6 @@ export default function ChatPage() {
     return [];
   });
   const [error, setError] = useState<string | null>(null);
-  const [selectedModel, setSelectedModel] = useState<AIModel>(AI_MODELS[0]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
@@ -44,7 +42,7 @@ export default function ChatPage() {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: text, model: selectedModel }),
+        body: JSON.stringify({ prompt: text }),
       });
 
       const data = await response.json();
@@ -216,8 +214,6 @@ export default function ChatPage() {
       <Composer
         onSend={handleSend}
         isStreaming={loading}
-        selectedModel={selectedModel}
-        onModelChange={(model) => setSelectedModel(model)}
       />
     </div>
   );

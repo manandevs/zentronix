@@ -1,5 +1,5 @@
 interface GroupLayoutProps {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 
 interface ComposerProps {
@@ -7,8 +7,6 @@ interface ComposerProps {
   onStop?: () => void;
   isStreaming: boolean;
   disabled?: boolean;
-  selectedModel?: AIModel;
-  onModelChange?: (model: AIModel) => void;
 }
 
 interface MessageListProps {
@@ -18,9 +16,6 @@ interface MessageListProps {
   onRetry: () => void;
   isLoaded: boolean;
 }
-
-type AIModel =
-  | "google/gemini-2.0-flash-001";
 
 interface Message {
   sender: "user" | "bot";

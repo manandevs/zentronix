@@ -33,11 +33,10 @@ function OurStory() {
       <div className="relative transition-colors duration-300">
         <section className="p-4 transition-colors duration-300 lg:p-6 text-lg font-urbanist">
           <p>
-            Built for the next generation of industry leaders, Zentorex AI works
-            tirelessly to orchestrate your neural infrastructure. Offload the
-            complexity of Gemini AI integration and autonomous workflows to us,
-            so you can focus entirely on high-level strategy and expanding your
-            vision.
+            Built for visionary industry leaders, Zentorex AI orchestrates your core
+            neural infrastructure. We eliminate the friction of Gemini AI integration
+            and autonomous workflow design so your team can focus entirely on strategic
+            growth and market expansion.
           </p>
         </section>
 
@@ -45,10 +44,10 @@ function OurStory() {
           <div className="grid grid-cols-1 grid-rows-2 gap-6 rounded-xl border border-border p-3 sm:grid-cols-2 sm:grid-rows-1 md:col-span-10 md:col-start-2 lg:col-span-8 lg:col-start-3">
             <div className="flex items-center px-4">
               <p className="mx-auto text-center text-balance text-lg">
-                Advanced intelligence should provide what matters most —
-                autonomous reasoning and cognitive scale. Discover how our expert
-                engineering team helps businesses dominate their market through
-                Gemini-powered innovation.
+                Advanced enterprise intelligence should deliver what matters most —
+                autonomous reasoning, deep context synthesis, and cognitive scale.
+                Discover how our expert engineering team empowers organizations to
+                dominate their markets through Gemini-driven innovation.
               </p>
             </div>
 

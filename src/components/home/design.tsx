@@ -9,22 +9,22 @@ import "swiper/css/free-mode";
 const slides = [
   {
     title: "Neural Logic Synthesis",
-    text: "Transform vast datasets into crystalline intelligence using Gemini’s multi-modal reasoning. We turn raw complexity into strategic clarity with sub-second precision.",
+    text: "Transform massive enterprise datasets into crystalline intelligence using advanced Gemini multimodal reasoning. We convert raw complexity into strategic clarity with sub-second execution speed.",
     bg: "bg-blue-500", // Deep Intelligence
   },
   {
-    title: "Agentic Orchestration",
-    text: "Deploy autonomous agents that reason, plan, and execute across your ecosystem. Build self-evolving systems that grow more intelligent with every interaction.",
+    title: "Autonomous Agentic Orchestration",
+    text: "Deploy self-directed autonomous agents that reason, plan, and execute complex workflows across your entire digital ecosystem. Build adaptive systems that compound in intelligence with every interaction.",
     bg: "bg-yellow-500", // Technology & Clarity
   },
   {
-    title: "Multi-Modal Architectures",
-    text: "Seamlessly integrate text, vision, and audio into a single cognitive pipeline. Tailor Gemini 1.5 Pro to your specific enterprise context for hyper-relevant outputs.",
+    title: "Advanced Multimodal Architectures",
+    text: "Seamlessly integrate text, vision, audio, and video into unified cognitive pipelines. Tailor Gemini architectures to your exact enterprise context for hyper-relevant, context-aware outputs.",
     bg: "bg-green-500", // Sophistication & Foundation
   },
   {
-    title: "Predictive Growth Engine",
-    text: "Visualize the trajectory of your transformation. Our engine maps model performance directly to ROI, giving you a measurable blueprint for market dominance.",
+    title: "Predictive Enterprise Growth Engine",
+    text: "Visualize the trajectory of your digital transformation. Our analytics engine maps AI performance directly to measurable business ROI, giving you a definitive blueprint for market dominance.",
     bg: "bg-rose-500", // Impact & Action
   },
 ];

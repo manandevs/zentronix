@@ -4,7 +4,7 @@ export function CognitiveGrowthBlock() {
       <div className="relative col-span-6 grid aspect-3/4 flex-none grid-cols-2 gap-2 overflow-hidden bg-yellow-500 md:aspect-3/4 md:rounded-2xl lg:aspect-video pointer-events-none shadow-xl before:pointer-events-none before:absolute before:inset-0 before:z-1 before:bg-black/10 before:content-['']">
         <div className="pointer-events-none relative z-10 col-span-2 flex flex-col items-center justify-center gap-2 p-4 text-white">
           <h2 className="text-center text-balance text-[36px] font-bold drop-shadow-md">
-            Self-Evolving Cognitive Growth
+            Self-Evolving Cognitive Growth & Adaptation
           </h2>
         </div>
       </div>
@@ -15,10 +15,10 @@ export function CognitiveGrowthBlock() {
             Continuous Neural Optimization
           </p>
           <p className="text-[20px] font-medium leading-relaxed md:max-w-[80%] lg:max-w-full">
-            AI models evolve daily, and so do our systems. We continuously
-            monitor, adapt, and fine-tune your autonomous agents to ensure
-            long-term, compounding intelligence and market-leading digital
-            visibility.
+            AI capabilities evolve rapidly, and so do our enterprise architectures.
+            We continuously monitor, adapt, and fine-tune your autonomous agents
+            to guarantee long-term compounding intelligence and unmatched market
+            leadership.
           </p>
         </div>
 

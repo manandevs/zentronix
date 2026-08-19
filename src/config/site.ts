@@ -2,9 +2,9 @@
 
 export const siteConfig = {
   name: "Zentorex",
-  title: "Zentorex — AI Automation Platform",
+  title: "Zentorex — Enterprise Neural Intelligence Platform",
   description:
-    "Enterprise AI platform powering intelligent automation and agentic workflows.",
+    "Advanced enterprise AI platform powering autonomous agentic workflows, long-context reasoning, and intelligent operational automation.",
 
   url: "https://zentronix-nine.vercel.app/",
 

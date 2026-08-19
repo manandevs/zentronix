@@ -80,9 +80,9 @@ export default function Skill() {
             >
               Neural Logic
             </span>{" "}
-            enables Zentorex AI to distill millions of data points into autonomous 
-            Gemini-powered strategies, unlocking exponential growth. What the AI 
-            reasons, we execute to perfection.
+            architecture enables Zentorex AI to distill complex datasets into autonomous, 
+            Gemini-powered strategies that unlock exponential enterprise growth. What the AI 
+            models reason, our engineering frameworks execute to perfection.
           </p>
         </div>
       </div>
@@ -130,9 +130,9 @@ export default function Skill() {
         <div className="relative z-10 flex flex-col items-center gap-10 rounded-3xl border border-gray-100 bg-white/80 p-8 shadow-sm backdrop-blur-sm">
           <div className="max-w-[50ch] text-center text-[20px] font-medium leading-relaxed">
             <p>
-              To date, we’ve successfully orchestrated intelligence for over 500 global brands.
+              To date, we’ve successfully orchestrated enterprise intelligence for over 500 global brands.
               We rigorously analyze market shifts and neural patterns to position your
-              enterprise as the ultimate authority in your industry.
+              organization as the definitive authority in your industry.
             </p>
           </div>
 

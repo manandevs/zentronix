@@ -23,7 +23,7 @@ const Hero = () => {
         className="top-20 flex flex-col items-center gap-3 pt-35 pb-16 lg:gap-6 sticky"
       >
         <p className="max-w-2xl px-6 py-2 text-center text-[20px] font-medium ">
-          The Ultimate Gemini AI Integration Engine
+          Enterprise Gemini AI Orchestration Engine
         </p>
         <h1 className="max-w-[20ch] px-4 py-2 text-center font-bold text-[50px] md:text-[98px] leading-[1.05] font-lobster">
           Scale Your Neural Intelligence
@@ -76,15 +76,15 @@ const Hero = () => {
           className="top-0 flex flex-col gap-3 pt-35 pb-16 lg:gap-6 fixed z-10 w-full text-white"
         >
           <p className="max-w-sm py-2 pr-6 pl-14 text-sm font-medium leading-[1.2] rounded-r-full bg-black/75">
-            Enterprise-Grade Gemini API Solutions
+            Enterprise-Grade Gemini Architecture
           </p>
           <h2 className="max-w-6xl py-2 pl-14 font-lobster tracking-wide font-bold text-4xl md:text-8xl drop-shadow-sm rounded-r-full bg-black/75">
-            Master Generative Logic
+            Master Generative Logic & Autonomous Workflows
           </h2>
           <p className="max-w-4xl text-lg pl-14 pr-6 font-medium leading-relaxed rounded-r-full bg-black/85">
-            Leverage multimodal reasoning, long-context understanding, and
-            autonomous agents to transform your business workflows with
-            Zentorex AI.
+            Leverage advanced multimodal reasoning, massive context windows, and
+            intelligent autonomous agents to transform your enterprise operations and drive
+            measurable growth with Zentorex AI.
           </p>
         </motion.div>
       </div>

@@ -7,7 +7,7 @@ export function NeuralLogicBlock() {
       <div className="relative col-span-6 grid aspect-3/4 flex-none grid-cols-2 gap-2 overflow-hidden bg-red-600 md:aspect-3/4 md:rounded-2xl lg:aspect-video pointer-events-none shadow-xl before:pointer-events-none before:absolute before:inset-0 before:z-1 before:bg-black/10 before:content-['']">
         <div className="pointer-events-none relative z-10 col-span-2 flex flex-col items-center justify-center gap-2 p-4 text-white">
           <h2 className="text-center text-balance text-[36px] font-bold drop-shadow-md">
-            Mastering Neural Logic
+            Mastering Neural Logic & Cognitive Synthesis
           </h2>
           <div className="absolute bottom-4 left-4">
             <PlayIconButton className="group block[--media-button-icon-height:20px]" />
@@ -21,13 +21,13 @@ export function NeuralLogicBlock() {
             Scaling Operational Intelligence
           </p>
           <p className="pr-4 text-[20px] font-medium leading-relaxed lg:max-w-full">
-            Zentorex AI consistently enhances your business logic, synthesizes
-            complex multimodal data, and builds systemic authority through
-            Gemini&apos;s 1.5 architecture.
+            Zentorex AI systematically elevates your business logic, synthesizes
+            complex multimodal data streams, and establishes enduring market
+            authority through advanced Gemini architectures.
             <br />
             <br />
-            Let us optimize the neural pipelines, so you can focus on the
-            high-level vision that drives global impact.
+            Let us optimize your neural pipelines so your leadership team can
+            focus entirely on driving global impact.
           </p>
         </div>
 

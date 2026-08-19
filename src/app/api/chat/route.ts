@@ -30,6 +30,13 @@ export async function POST(req: Request) {
           "X-goog-api-key": process.env.GEMINI_API_KEY || "",
         },
         body: JSON.stringify({
+          system_instruction: {
+            parts: [
+              {
+                text: "You are Zentronix AI, an elite enterprise neural intelligence assistant created by Zentorex. You provide exceptionally clear, expert, well-structured, and accurate technical, analytical, and operational guidance. Format your responses professionally with clear headings, bullet points, and actionable insights."
+              }
+            ]
+          },
           contents: [{ parts: [{ text: prompt }] }],
         }),
       }
@@ -41,14 +48,13 @@ export async function POST(req: Request) {
       return NextResponse.json(data, { status: response.status });
     }
 
-    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? "No response";
+    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? "No response generated.";
     
-
     return NextResponse.json({ message: text });
   } catch (error) {
     console.error("API Error:", error);
     return NextResponse.json(
-      { error: { message: "Internal server error" } },
+      { error: { message: "Internal server error connecting to neural core." } },
       { status: 500 }
     );
   }

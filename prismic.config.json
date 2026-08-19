@@ -1,0 +1,7 @@
+{
+  "repositoryName": "zentronix",
+  "libraries": [
+    "./slices"
+  ],
+  "routes": []
+}

@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Zentronix
 
-## Getting Started
+Zentronix is a Next.js application with Prismic content management and Slice
+Machine support.
 
-First, run the development server:
+## Setup
 
-```bash
-npm run dev
+Install dependencies with one package manager. Bun is supported for local
+development; npm is also supported.
+
+```powershell
+bun i
 # or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm i
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Create `.env.local` in the project root:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```env
+GEMINI_API_KEY=
+NEXT_PUBLIC_PRISMIC_ENVIRONMENT=zentronix
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Keep `.env.local` private. Add the Gemini API key only on your local machine or
+in the deployment provider's environment settings.
 
-## Learn More
+## Prismic Setup
 
-To learn more about Next.js, take a look at the following resources:
+The Prismic repository is `zentronix`. Initialize or refresh the local
+configuration with:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```powershell
+npx prismic init
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+To pull content models from Prismic later, run:
 
-## Deploy on Vercel
+```powershell
+npx prismic pull
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Initialize Slice Machine with:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```powershell
+npx @slicemachine/init@latest
+```
+
+If initialization reports `Invalid context provided` while pulling existing
+types, confirm that you are logged in to the correct Prismic account and
+repository, then run `npx prismic pull` or start Slice Machine manually:
+
+```powershell
+npx start-slicemachine --open
+```
+
+Slice Machine opens at [http://localhost:9999](http://localhost:9999).
+
+## Run The App
+
+Start the Next.js development server:
+
+```powershell
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in a browser.
+
+Useful checks:
+
+```powershell
+npm run lint
+npm run build
+```
+
+## Dependency Security
+
+Review dependency vulnerabilities with:
+
+```powershell
+npm audit
+```
+
+Apply non-breaking fixes with:
+
+```powershell
+npm audit fix
+```
+
+Use `npm audit fix --force` only after reviewing the dependency upgrades. It
+may upgrade Next.js beyond the version declared in `package.json`.
